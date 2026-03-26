@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// prisma/schema.prisma
+
+model User {
+  id         String      @id @default(uuid())
+  clerkId    String      @unique // เชื่อมกับ Clerk
+  email      String      @unique
+  name       String
+  interviews Interview[]
+  createdAt  DateTime    @default(now())
+  role       Role        @default(USER)
+}
+
+model Interview {
+  id           String    @id @default(uuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [clerkId])
+  position     String    // ตำแหน่งที่สมัคร
+  level        String    // ระดับ (Junior/Senior)
+  transcript   String?   @db.Text // เก็บข้อความสนทนาทั้งหมด
+  audioUrl     String?   // เผื่อเก็บไฟล์เสียงย้อนหลัง
+  score        Json?     // เก็บผลวิเคราะห์เป็น JSON (Logic, Comm, Tech)
+  feedback     String?   @db.Text
+  status       String    @default("completed")
+  createdAt    DateTime  @default(now())
+}
+
+// ENUM ROLE สถานะ
+enum Role {
+  ADMIN
+  USER
+}

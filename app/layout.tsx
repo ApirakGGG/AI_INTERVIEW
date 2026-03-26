@@ -4,10 +4,10 @@ import { Poppins, Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
-// import "./globals.css";
 const poppins = Poppins({
   weight: ["500", "600"],
   subsets: ["latin"],
@@ -35,7 +35,9 @@ export default function RootLayout({
           {/* จัด layout nav+footer */}
           <div className="relative flex min-h-screen flex-col">
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 w-full mx-auto px-4 max-w-7xl sm:px-6 lg:px-8 py-8">
+              {children}
+            </main>
             <Footer />
           </div>
         </body>
