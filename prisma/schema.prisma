@@ -33,6 +33,8 @@ model Interview {
   transcript   String?   @db.Text // เก็บข้อความสนทนาทั้งหมด
   audioUrl     String?   // เผื่อเก็บไฟล์เสียงย้อนหลัง
   score        Json?     // เก็บผลวิเคราะห์เป็น JSON (Logic, Comm, Tech)
+  averageScore Float?    // เก็บค่าเฉลี่ยของคะแนน
+  duration   Int?         //เวลาฝึก
   feedback     String?   @db.Text
   status       String    @default("completed")
   createdAt    DateTime  @default(now())
