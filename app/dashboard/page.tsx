@@ -22,21 +22,32 @@ const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0; // บังคับให้ดึงข้อมูลใหม่ทุกครั้งที่โหลดหน้า
+
 export default async function Dashboard() {
   const { userId } = await auth();
-
+  console.log(`userId`, userId);
   if (!userId) return null;
+
+  // userdb
+  const user = await prisma.user.findUnique({
+    where: { clerkId: userId as string},
+    include: { interviews: true },
+  });
+
+  console.log(`user:`, user);
 
   //   ดึงข้อมูลจากฐานข้อมูล
   const interviews = await prisma.interview.findMany({
-    where: { userId: userId as any },
+    where: { userId: userId as string },
     orderBy: { createdAt: "desc" },
     take: 5,
   });
 
   //   จำนวนการสัมภาษณ์ทั้งหมด
   const totalCountInterviews = await prisma.interview.count({
-    where: { userId: userId as any },
+    where: { userId: userId as string },
   });
   // คำนวณคะแนนเฉลี่ย
   const aggregate = await prisma.interview.aggregate({
@@ -80,7 +91,7 @@ export default async function Dashboard() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
-            ยินดีต้อนรับกลับมา! มาดูความก้าวหน้าในการสัมภาษณ์ของคุณ
+            ยินดีต้อนรับ! {user?.name} มาดูความก้าวหน้าในการสัมภาษณ์ของคุณ
           </p>
         </div>
         {/* back to interview */}
