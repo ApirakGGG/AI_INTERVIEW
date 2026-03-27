@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { PrismaPg } from "@prisma/adapter-pg";
 
+export const dynamic = 'force-dynamic';
+
 // แนะนำให้ดึง PrismaClient ออกมาข้างนอกเพื่อป้องกันการสร้าง connection ซ้ำซ้อน
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
