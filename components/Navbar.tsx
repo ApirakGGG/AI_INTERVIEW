@@ -63,7 +63,7 @@ export default function Example() {
                 {/* map navigation ถ้า user is logged in */}
                 {isSignedIn &&
                   navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       onChange={e => e.preventDefault()}
@@ -76,7 +76,7 @@ export default function Example() {
                       )}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function Example() {
             navigation.map((item) => (
               <DisclosureButton
                 key={item.name}
-                as="a"
+                as={Link}
                 onChange={e => e.preventDefault()}
                 href={item.href}
                 aria-current={item.current ? "page" : undefined}

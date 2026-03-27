@@ -84,7 +84,7 @@ export default async function Dashboard() {
           </p>
         </div>
         {/* back to interview */}
-        <Button
+        <Button asChild
           className="bg-indigo-600 w-50px hover:bg-indigo-700 text-white px-6 py-5 rounded-xl font-medium shadow-lg shadow-indigo-200 transition-all flex items-center gap-2"
         >
           <Link href="/interview" className="flex items-center gap-2">
