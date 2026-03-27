@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
     // ใช้ Gemini วิเคราะห์script
     const response = await genAI.models.generateContent({
-      model: "Gemini 3.1 Pro",
+      model: "gemini-3-flash-preview",
       contents: prompt,
       config: {
         thinkingConfig: {
