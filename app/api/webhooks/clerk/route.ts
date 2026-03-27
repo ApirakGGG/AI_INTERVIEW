@@ -44,27 +44,46 @@ export async function POST(req: Request) {
     return new Response("Error occurred", { status: 400 });
   }
 
-  const eventType = evt.type;
+  //   จัดการ event
+const eventType = evt.type;
 
-// ตรวจสอบตอนสร้าง User ใหม่ หรือตอนแก้ไขข้อมูล User
-if (eventType === "user.created" || eventType === "user.updated") {
-    
-    // evt.data จะเป็น UserJSON เสมอจาก 2 event นี้ 
-    const { id, email_addresses, first_name, last_name } = evt.data;
+if (eventType === "user.created") {
+  // 1. ดึงข้อมูลออกมาอย่างปลอดภัย
+  const { id, email_addresses, first_name, last_name } = evt.data;
 
+  // 2. เช็คก่อนว่ามีข้อมูลอีเมลไหม
+  const email = email_addresses && email_addresses.length > 0 
+                ? email_addresses[0].email_address 
+                : null;
+
+  if (!email) {
+    console.error("No email address found for user:", id);
+    return new Response("Error: No email address", { status: 400 });
+  }
+
+  // 3. จัดการเรื่องชื่อ (เผื่อบางคนไม่มีนามสกุล)
+  const fullName = `${first_name ?? ""} ${last_name ?? ""}`.trim() || "User";
+
+  try {
+    // สร้าง user ใน DB โดยใช้ฟังก์ชัน upsert เพื่อกันข้อมูลซ้ำ
     await prisma.user.upsert({
-        where: { clerkId: id },
-        update: {
-            name: `${first_name || ""} ${last_name || ""}`.trim(),
-            email: email_addresses[0].email_address,
-        },
-        create: {
-            clerkId: id,
-            email: email_addresses[0].email_address,
-            name: `${first_name || ""} ${last_name || ""}`.trim(),
-        }
+      where: { clerkId: id },
+      update: {
+        email: email,
+        name: fullName,
+      },
+      create: {
+        clerkId: id,
+        email: email,
+        name: fullName,
+      },
     });
-    console.log(`User processed: ${id}`);
+
+    console.log(`✅ User processed successfully: ${id} (${fullName})`);
+  } catch (dbError) {
+    console.error("❌ Prisma Error:", dbError);
+    return new Response("Database Error", { status: 500 });
+  }
 }
 
   return new Response("Success", { status: 200 });
