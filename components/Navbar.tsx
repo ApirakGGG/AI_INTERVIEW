@@ -30,7 +30,7 @@ export default function Example() {
 
   return (
     <Disclosure as="nav" className="relative bg-gray-800">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 sticky top-0 z-50">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
@@ -66,6 +66,7 @@ export default function Example() {
                     <a
                       key={item.name}
                       href={item.href}
+                      onChange={e => e.preventDefault()}
                       aria-current={item.current ? "page" : undefined}
                       className={classNames(
                         pathname === item.href
@@ -121,6 +122,7 @@ export default function Example() {
               <DisclosureButton
                 key={item.name}
                 as="a"
+                onChange={e => e.preventDefault()}
                 href={item.href}
                 aria-current={item.current ? "page" : undefined}
                 className={classNames(

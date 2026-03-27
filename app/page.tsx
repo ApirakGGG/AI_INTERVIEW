@@ -23,8 +23,8 @@ export default async function Page() {
 
   return (
     <div className="mx-auto">
-      <h1>สวัสดีคุณ {dbUser?.name}</h1>
-      <p>คุณสัมภาษณ์ไปแล้ว {dbUser?.interviews.length} ครั้ง</p>
+      {/* <h1>สวัสดีคุณ {dbUser?.name}</h1>
+      <p>คุณสัมภาษณ์ไปแล้ว {dbUser?.interviews.length} ครั้ง</p> */}
       <main className="p-4">
         <Dashboard />
       </main>
