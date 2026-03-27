@@ -46,25 +46,26 @@ export async function POST(req: Request) {
 
   const eventType = evt.type;
 
-  // ✅ เมื่อ Verify ผ่านแล้ว ค่อยเอาข้อมูลมาใช้งาน
-  if (eventType === "user.created") {
-    const { id, email_addresses, first_name, last_name } = evt.data;
+// ตรวจสอบตอนสร้าง User ใหม่ หรือตอนแก้ไขข้อมูล User
+if (eventType === "user.created" || eventType === "user.updated") {
     
-    try {
-      await prisma.user.create({
-          data: {
-              clerkId: id,
-              email: email_addresses[0].email_address,
-              name: `${first_name || ""} ${last_name || ""}`.trim(),
-          }
-      });
-      console.log(`User created: ${id}`);
-    } catch (dbError) {
-      console.error("Database Error:", dbError);
-      // คืนค่า 500 ถ้า DB มีปัญหา เพื่อให้ Clerk ส่ง Webhook มาใหม่ (Retry)
-      return new Response("Database Error", { status: 500 });
-    }
-  }
+    // evt.data จะเป็น UserJSON เสมอจาก 2 event นี้ 
+    const { id, email_addresses, first_name, last_name } = evt.data;
+
+    await prisma.user.upsert({
+        where: { clerkId: id },
+        update: {
+            name: `${first_name || ""} ${last_name || ""}`.trim(),
+            email: email_addresses[0].email_address,
+        },
+        create: {
+            clerkId: id,
+            email: email_addresses[0].email_address,
+            name: `${first_name || ""} ${last_name || ""}`.trim(),
+        }
+    });
+    console.log(`User processed: ${id}`);
+}
 
   return new Response("Success", { status: 200 });
 }
