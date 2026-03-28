@@ -165,8 +165,14 @@ export default function InterviewPage() {
         </div>
       </div>
 
-      {/* Dropdown for Position and Level */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
+      {/* Dropdown for Position and Level — ซ่อนตอนสัมภาษณ์ */}
+      <div
+        className={`grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left overflow-hidden transition-all duration-500 ease-in-out ${
+          isCalling
+            ? "max-h-0 opacity-0 mb-0 pointer-events-none"
+            : "max-h-[300px] opacity-100"
+        }`}
+      >
         <div className="flex flex-col">
           <label className="mb-2 font-semibold text-slate-700">
             ตำแหน่งที่ต้องการสัมภาษณ์
@@ -175,7 +181,6 @@ export default function InterviewPage() {
             className="p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-white shadow-sm"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
-            disabled={isCalling}
           >
             <option value="Software Engineer">Software Engineer</option>
             <option value="Frontend Developer">Frontend Developer</option>
@@ -194,7 +199,6 @@ export default function InterviewPage() {
             className="p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-white shadow-sm"
             value={level}
             onChange={(e) => setLevel(e.target.value)}
-            disabled={isCalling}
           >
             <option value="Intern">Intern</option>
             <option value="Junior">Junior</option>
