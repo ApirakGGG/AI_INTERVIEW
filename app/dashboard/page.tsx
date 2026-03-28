@@ -23,7 +23,6 @@ const prisma = new PrismaClient({
 });
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0; // บังคับให้ดึงข้อมูลใหม่ทุกครั้งที่โหลดหน้า
 
 export default async function Dashboard() {
   const { userId } = await auth();
@@ -36,7 +35,7 @@ export default async function Dashboard() {
     include: { interviews: true },
   });
 
-  console.log(`user:`, user);
+  // console.log(`user:`, user);
 
   //   ดึงข้อมูลจากฐานข้อมูล
   const interviews = await prisma.interview.findMany({
@@ -94,7 +93,9 @@ export default async function Dashboard() {
             ยินดีต้อนรับ! {user?.name} มาดูความก้าวหน้าในการสัมภาษณ์ของคุณ
           </p>
         </div>
-        {/* back to interview */}
+
+        <div className="flex gap-2">
+          {/* back to interview */}
         <Button asChild
           className="bg-indigo-600 w-50px hover:bg-indigo-700 text-white px-6 py-5 rounded-xl font-medium shadow-lg shadow-indigo-200 transition-all flex items-center gap-2"
         >
@@ -103,6 +104,17 @@ export default async function Dashboard() {
             เริ่มสัมภาษณ์ใหม่
           </Link>
         </Button>
+         {/*history */}
+        <Button asChild
+        variant={"outline"}
+          className="bg-slate-500 w-50px hover:bg-slate-700 text-white px-6 py-5 rounded-xl font-medium shadow-lg shadow-indigo-200 transition-all flex items-center gap-2"
+        >
+          <Link href="/history" className="flex items-center gap-2">
+            <History size={18} />
+            ประวัติการสัมภาษณ์
+          </Link>
+        </Button>
+        </div>
       </div>
 
       {/*  Overview Stats Boxes */}

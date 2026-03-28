@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ export function RecentInterviewsTable({ data }: { data: any[] }) {
           <TableHead>ตำแหน่ง</TableHead>
           <TableHead>วันที่</TableHead>
           <TableHead>คะแนน</TableHead>
-          <TableHead className="text-right">จัดการ</TableHead>
+          <TableHead className="text-right">สถานะ</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -41,13 +41,11 @@ export function RecentInterviewsTable({ data }: { data: any[] }) {
               <TableCell>
                 <span className="font-bold text-indigo-600">
                   {/* สมมติว่าเก็บคะแนนเฉลี่ยไว้ใน score.total */}
-                  {item.score?.total || 0}/100
+                  {item.averageScore || 0}/100
                 </span>
               </TableCell>
               <TableCell className="text-right">
-                <button className="text-sm hover:underline text-slate-500">
-                  ดูรายละเอียด
-                </button>
+                {item.status}
               </TableCell>
             </TableRow>
           ))

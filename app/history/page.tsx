@@ -19,11 +19,15 @@ export default async function HistoryPage() {
     orderBy: { createdAt: "desc" },
   });
 
+  const user = await prisma.user.findUnique({
+    where: { clerkId: userId as string },
+  });
+
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold">ประวัติการสัมภาษณ์</h1>
+          <h1 className="flex text-3xl font-bold">ประวัติการสัมภาษณ์ของ <p className="text-indigo-600 ml-2"> {user?.name}</p></h1>
           <p className="text-muted-foreground">รวมการฝึกซ้อมทั้งหมดของคุณที่ผ่านมา</p>
         </div>
         <Badge variant="outline" className="text-sm py-1 px-4">
@@ -75,8 +79,8 @@ export default async function HistoryPage() {
                   <TableCell>
                     {/* ดึงคะแนนจากฟิลด์ JSON ที่คุณเก็บไว้ */}
                     <div className="flex items-center gap-2">
-                      <span className={`text-lg font-bold ${(item.score as any)?.total >= 70 ? 'text-green-600' : 'text-amber-600'}`}>
-                        {(item.score as any)?.total || 0}
+                      <span className={`text-lg font-bold ${(item.averageScore as any) >= 70 ? 'text-green-600' : 'text-amber-600'}`}>
+                        {(item.averageScore as any) || 0}
                       </span>
                       <span className="text-xs text-muted-foreground">/ 100</span>
                     </div>
