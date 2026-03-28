@@ -52,19 +52,19 @@ export async function POST(req: Request) {
       try {
         // ใช้ Gemini วิเคราะห์ transcript
         const prompt = `คุณเป็น AI วิเคราะห์การสัมภาษณ์งาน วิเคราะห์บทสนทนาต่อไปนี้แล้วตอบในรูปแบบ JSON เท่านั้น ห้ามมี text อื่น:
-บทสนทนา:
-${transcript}
-ตอบในรูปแบบ JSON นี้เท่านั้น:
-{
-  "score": <คะแนนรวม 1-10 เป็นตัวเลข>,
-  "logic": <คะแนน Logic 1-10 เป็นตัวเลข>,
-  "communication": <คะแนน Communication 1-10 เป็นตัวเลข>,
-  "technical": <คะแนน Technical 1-10 เป็นตัวเลข>,
-  "feedback": "<คำแนะนำสั้นๆ ภาษาไทย>"
-}`;
+          บทสนทนา:
+          ${transcript}
+          ตอบในรูปแบบ JSON นี้เท่านั้น:
+          {
+            "score": <คะแนนรวม 1-10 เป็นตัวเลข>,
+            "logic": <คะแนน Logic 1-10 เป็นตัวเลข>,
+            "communication": <คะแนน Communication 1-10 เป็นตัวเลข>,
+            "technical": <คะแนน Technical 1-10 เป็นตัวเลข>,
+            "feedback": "<คำแนะนำสั้นๆ ภาษาไทย>"
+          }`;
 
         const response = await genAI.models.generateContent({
-          model: "gemini-2.0-flash",
+          model: "gemini-1.5-flash",
           contents: prompt,
         });
 
