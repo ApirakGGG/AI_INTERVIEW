@@ -49,43 +49,53 @@ export async function POST(req: Request) {
       let score = 5;
       let feedback = "ไม่สามารถวิเคราะห์ผลได้ในขณะนี้";
 
-      try {
-        // ใช้ Gemini วิเคราะห์ transcript
-        const prompt = `คุณเป็น AI วิเคราะห์การสัมภาษณ์งาน วิเคราะห์บทสนทนาต่อไปนี้แล้วตอบในรูปแบบ JSON เท่านั้น ห้ามมี text อื่น:
-          บทสนทนา:
-          ${transcript}
-          ตอบในรูปแบบ JSON นี้เท่านั้น:
-          {
-            "score": <คะแนนรวม 1-10 เป็นตัวเลข>,
-            "logic": <คะแนน Logic 1-10 เป็นตัวเลข>,
-            "communication": <คะแนน Communication 1-10 เป็นตัวเลข>,
-            "technical": <คะแนน Technical 1-10 เป็นตัวเลข>,
-            "feedback": "<คำแนะนำสั้นๆ ภาษาไทย>"
-          }`;
+      const prompt = `คุณเป็น AI วิเคราะห์การสัมภาษณ์งาน วิเคราะห์บทสนทนาต่อไปนี้แล้วตอบในรูปแบบ JSON เท่านั้น ห้ามมี text อื่น:
 
-        const response = await genAI.models.generateContent({
-          model: "gemini-1.5-flash",
-          contents: prompt,
-        });
+บทสนทนา:
+${transcript}
 
-        const rawText = response.text || "";
-        console.log("[VAPI Webhook] Gemini raw response:", rawText);
+ตอบในรูปแบบ JSON นี้เท่านั้น:
+{
+  "score": <คะแนนรวม 1-10 เป็นตัวเลข>,
+  "logic": <คะแนน Logic 1-10 เป็นตัวเลข>,
+  "communication": <คะแนน Communication 1-10 เป็นตัวเลข>,
+  "technical": <คะแนน Technical 1-10 เป็นตัวเลข>,
+  "feedback": "<คำแนะนำสั้นๆ ภาษาไทย>"
+}`;
 
-        // ดึง JSON ออกจาก response (อาจมี markdown code block)
-        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          const analysis = JSON.parse(jsonMatch[0]);
-          score = Number(analysis.score) || 5;
-          feedback = analysis.feedback || feedback;
-          console.log("[VAPI Webhook] Gemini analysis:", analysis);
-        } else {
-          console.warn(
-            "[VAPI Webhook] Could not extract JSON from Gemini response",
-          );
+      // ลอง call Gemini สูงสุด 2 ครั้ง (retry เมื่อโดน 429)
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          const response = await genAI.models.generateContent({
+            model: "gemini-1.5-flash", // quota แยกจาก gemini-2.0-flash
+            contents: prompt,
+          });
+
+          const rawText = response.text || "";
+          console.log("[VAPI Webhook] Gemini raw response:", rawText);
+
+          const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const analysis = JSON.parse(jsonMatch[0]);
+            score = Number(analysis.score) || 5;
+            feedback = analysis.feedback || feedback;
+            console.log("[VAPI Webhook] Gemini analysis:", analysis);
+          } else {
+            console.warn("[VAPI Webhook] Could not extract JSON from Gemini");
+          }
+          break; // สำเร็จ → ออก loop
+
+        } catch (geminiError: any) {
+          const is429 = geminiError?.status === 429;
+          console.error(`[VAPI Webhook] Gemini error (attempt ${attempt}):`, is429 ? "429 Rate limited" : geminiError);
+
+          if (is429 && attempt === 1) {
+            console.log("[VAPI Webhook] Rate limited, retrying in 10s...");
+            await new Promise((r) => setTimeout(r, 10000));
+          } else {
+            break; // ล้มเหลว → ใช้ default score แล้วไปบันทึก DB ต่อ
+          }
         }
-      } catch (geminiError) {
-        console.error("[VAPI Webhook] Gemini error:", geminiError);
-        // ใช้ค่า default ต่อไป ไม่หยุดการบันทึก DB
       }
 
       // บันทึกลง DB
