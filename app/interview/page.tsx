@@ -63,7 +63,7 @@ export default function InterviewPage() {
         variableValues: {
           position: position,
           level: level,
-          userId: user?.id,       // flat string → webhook อ่านได้ง่าย
+          userId: user?.id, // flat string → webhook อ่านได้ง่าย
           userName: user?.fullName,
         },
       });
@@ -79,9 +79,7 @@ export default function InterviewPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto mt-10 p-6 text-center">
-      <h1 className="text-3xl font-bold mb-8">AI Technical Interview</h1>
-
+    <div className="max-w-7xl mx-auto p-6 text-center">
       {/* AI and User Windows */}
       <div className="flex flex-col md:flex-row gap-8 items-center justify-center mb-8 h-[30vh]">
         {/* AI Window */}
