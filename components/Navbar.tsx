@@ -50,11 +50,11 @@ export default function Example() {
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center">
               {/* LOGO */}
-              <img
+              {/* <img
                 alt="AI_INTERVIEW"
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                // src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                 className="h-8 w-auto"
-              />
+              /> */}
             </div>
 
             {/* Desktop navigation */}
