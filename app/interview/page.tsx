@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Vapi from "@vapi-ai/web";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -11,21 +11,50 @@ const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY as string);
 
 export default function InterviewPage() {
   const { user } = useUser();
-  const [transcript, setTranscript] = useState(""); // สำหรับทำ Subtitle
-  const [isCalling, setIsCalling] = useState(false);
-  const [position, setPosition] = useState("Software Engineer");
-  const [level, setLevel] = useState("Junior");
+  const [transcript, setTranscript] = useState(""); // ทำ Subtitle
+  const [isCalling, setIsCalling] = useState(false); //สถานะการโทร
+  const [position, setPosition] = useState("Software Engineer"); //ตำแหน่ง
+  const [level, setLevel] = useState("Junior"); //ระดับ
 
-  // UI states
-  const [aiSpeaking, setAiSpeaking] = useState(false);
-  const [userSpeaking, setUserSpeaking] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  // UI 
+  const [aiSpeaking, setAiSpeaking] = useState(false); //เวลา AI กดพูด
+  const [userSpeaking, setUserSpeaking] = useState(false); //เวลา User กดพูด
+  const [isMuted, setIsMuted] = useState(false); //เวลา Mute เสียง
 
-  const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID as string;
+  // state จับเวลา
+  const [elapsedSeconds, setElapsedSeconds] = useState(0); //เวลาที่ใช้ในการสัมภาษณ์ให้เพิ่มขึ้นทีละ 1 วิ
+  const timerRef = useRef<NodeJS.Timeout | null>(null); //เวลาที่ใช้ในการสัมภาษณ์
+
+  // เริ่มจับเวลา
+  const startTimer = () => {
+    setElapsedSeconds(0); //เริ่มจับเวลาที่ 0
+    timerRef.current = setInterval(() => {
+      setElapsedSeconds((prev) => prev + 1); //เพิ่มขึ้นทีละ 1 วิ
+    }, 1000); //ทุกๆ 1 วิ
+  };
+
+  // หยุดจับเวลา
+  const stopTimer = () => { 
+    if (timerRef.current)  {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  // แปลงเวลาเป็นนาทีและวินาที
+  const formatTime = (secs: number) => {
+    const m = Math.floor(secs / 60) //นาที
+      .toString()
+      .padStart(2, "0");
+    const s = (secs % 60).toString().padStart(2, "0"); //วินาที
+    return `${m}:${s}`;
+  };
+
+  const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID as string; 
 
   useEffect(() => {
     vapi.on("message", (message: any) => {
-      // ดึง Transcript แบบ Real-time (Partial คือยังพูดไม่จบ, Final คือจบประโยค)
+      // ดึง Transcript แบบ Real-time คือยังพูดไม่จบ Final คือจบประโยค
       if (
         message.type === "transcript" &&
         message.transcriptType === "partial"
@@ -38,24 +67,33 @@ export default function InterviewPage() {
     vapi.on("speech-start", () => setAiSpeaking(true));
     vapi.on("speech-end", () => setAiSpeaking(false));
 
-    // User Speaking state (Volume monitoring)
+    // User Speaking state
     vapi.on("volume-level", (volume) => {
       setUserSpeaking(volume > 0.1);
     });
 
-    vapi.on("call-start", () => setIsCalling(true));
+    // เริ่มการสัมภาษณ์
+    vapi.on("call-start", () => {
+      setIsCalling(true);
+      startTimer(); // เริ่มจับเวลา
+    });
+
+    // จบการสัมภาษณ์
     vapi.on("call-end", () => {
       setIsCalling(false);
       setAiSpeaking(false);
       setUserSpeaking(false);
       setTranscript("การสัมภาษณ์จบลงแล้ว ระบบกำลังประมวลผลคะแนน...");
+      stopTimer(); // หยุดจับเวลา
     });
 
+    // ดักerror
     vapi.on("error", (error) => {
       console.error("Vapi error:", error);
     });
   }, []);
 
+  // เริ่มการสัมภาษณ์
   const startInterview = async () => {
     try {
       console.log("Starting interview with assistantId:", assistantId);
@@ -63,7 +101,7 @@ export default function InterviewPage() {
         variableValues: {
           position: position,
           level: level,
-          userId: user?.id, // flat string → webhook อ่านได้ง่าย
+          userId: user?.id, // flat string webhook อ่านได้ง่าย
           userName: user?.fullName,
         },
       });
@@ -72,6 +110,7 @@ export default function InterviewPage() {
     }
   };
 
+  // Mute เสียง
   const toggleMute = () => {
     const nextMuted = !isMuted;
     vapi.setMuted(nextMuted);
@@ -84,7 +123,7 @@ export default function InterviewPage() {
       <div className="flex flex-col md:flex-row gap-8 items-center justify-center mb-8 h-[30vh]">
         {/* AI Window */}
         <div
-          className={`relative flex flex-col items-center justify-center p-8 border-2 rounded-2xl w-full md:w-1/2 transition-colors duration-300 ${
+          className={`relative flex flex-col items-center justify-center p-8 border-2 rounded-2xl w-full sm:w-full md:w-1/2 transition-colors duration-300 ${
             aiSpeaking
               ? "border-indigo-500 bg-indigo-50/50 shadow-indigo-100"
               : "border-slate-200 bg-white"
@@ -112,7 +151,7 @@ export default function InterviewPage() {
 
         {/* User Window */}
         <div
-          className={`relative flex flex-col items-center justify-center p-8 border-2 rounded-2xl w-full md:w-1/2 transition-colors duration-300 ${
+          className={`relative flex flex-col items-center justify-center p-8 border-2 rounded-2xl w-full sm:w-full md:w-1/2 transition-colors duration-300 ${
             userSpeaking && !isMuted && isCalling
               ? "border-green-500 bg-green-50/50 shadow-green-100"
               : isMuted
@@ -214,17 +253,28 @@ export default function InterviewPage() {
         </p>
       </div>
 
-      <Button
-        variant={"default"}
-        onClick={isCalling ? () => vapi.stop() : startInterview}
-        className={`px-10 py-6 rounded-xl font-bold text-white text-lg transition-all cursor-pointer shadow-lg w-full md:w-auto ${
-          isCalling
-            ? "bg-red-500 hover:bg-red-600 shadow-red-500/30"
-            : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30"
-        }`}
-      >
-        {isCalling ? "จบการสัมภาษณ์" : "เริ่มพูดคุยตอนนี้"}
-      </Button>
+      {/* จับเวลาสัมภาษณ์ */}
+      <div className="flex flex-col items-center gap-3">
+        {isCalling && (
+          <div className="flex items-center gap-2 text-slate-600 font-mono text-lg">
+            <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+            <span className="font-bold text-lg">
+              {formatTime(elapsedSeconds)}
+            </span>
+          </div>
+        )}
+        <Button
+          variant={"default"}
+          onClick={isCalling ? () => vapi.stop() : startInterview}
+          className={`px-10 py-6 rounded-xl font-bold text-white text-lg transition-all cursor-pointer shadow-lg w-full md:w-auto ${
+            isCalling
+              ? "bg-red-500 hover:bg-red-600 shadow-red-500/30"
+              : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30"
+          }`}
+        >
+          {isCalling ? "จบการสัมภาษณ์" : "เริ่มพูดคุยตอนนี้"}
+        </Button>
+      </div>
     </div>
   );
 }
