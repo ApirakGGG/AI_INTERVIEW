@@ -45,9 +45,12 @@ export async function POST(req: Request) {
       const actualPosition = callVars.position || "Software Engineer";
       const actualLevel = callVars.level || "Junior";
 
-      // ค่า default ในกรณีที่ Gemini ล้มเหลว
-      let score = 5;
-      let feedback = "ไม่สามารถวิเคราะห์ผลได้ในขณะนี้";
+      // ค่า default ถ้า Gemini คิดผิด
+      let techScore = 50;
+      let commScore = 50;
+      let logicScore = 50;
+      let averageScore = 50;
+      let feedback = "ไม่สามารถวิเคราะห์ผลได้ในขณะนี้"; //default
 
       const prompt = `คุณเป็น AI วิเคราะห์การสัมภาษณ์งาน วิเคราะห์บทสนทนาต่อไปนี้แล้วตอบในรูปแบบ JSON เท่านั้น ห้ามมี text อื่น:
 
@@ -63,27 +66,33 @@ ${transcript}
   "feedback": "<คำแนะนำสั้นๆ ภาษาไทย>"
 }`;
 
-      // ลอง call Gemini สูงสุด 2 ครั้ง (retry เมื่อโดน 429)
+      // ลอง call Gemini สูงสุด 2 ครั้ง retry ถ้าโดน 429
       for (let attempt = 1; attempt <= 2; attempt++) {
         try {
           const response = await genAI.models.generateContent({
-            model: "gemini-1.5-flash", // quota แยกจาก gemini-2.0-flash
+            model: "gemini-3-flash-preview", // quota แยกจาก gemini-2.0-flash
             contents: prompt,
           });
 
           const rawText = response.text || "";
           console.log("[VAPI Webhook] Gemini raw response:", rawText);
 
-          const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+          const jsonMatch = rawText.match(/\{[\s\S]*\}/); //validate text
           if (jsonMatch) {
             const analysis = JSON.parse(jsonMatch[0]);
-            score = Number(analysis.score) || 5;
+            
+            // แปลงคะแนนระดับ 1-10 เป็นเปอร์เซ็นต์ (คูณ 10) ตามรูปแบบการแสดงผลของ Dashboard
+            techScore = (Number(analysis.technical) || 5) * 10;
+            commScore = (Number(analysis.communication) || 5) * 10;
+            logicScore = (Number(analysis.logic) || 5) * 10;
+            averageScore = (Number(analysis.score) || 5) * 10;
+
             feedback = analysis.feedback || feedback;
             console.log("[VAPI Webhook] Gemini analysis:", analysis);
           } else {
             console.warn("[VAPI Webhook] Could not extract JSON from Gemini");
           }
-          break; // สำเร็จ → ออก loop
+          break; // สำเร็จออก loop
 
         } catch (geminiError: any) {
           const is429 = geminiError?.status === 429;
@@ -93,7 +102,7 @@ ${transcript}
             console.log("[VAPI Webhook] Rate limited, retrying in 10s...");
             await new Promise((r) => setTimeout(r, 10000));
           } else {
-            break; // ล้มเหลว → ใช้ default score แล้วไปบันทึก DB ต่อ
+            break; // ล้มเหลว ใช้ default score แล้วไปบันทึก DB ต่อ
           }
         }
       }
@@ -106,7 +115,13 @@ ${transcript}
           duration: durationInSeconds,
           level: actualLevel,
           transcript: transcript,
-          score: score,
+          score: {
+            Technical: techScore,
+            Communication: commScore,
+            Logic: logicScore,
+            fillerLevel: "Low", // ค่าเริ่มต้นระดับความถี่การพูดคำสร้อย
+          },
+          averageScore: averageScore,
           feedback: feedback,
           status: "completed",
         },
