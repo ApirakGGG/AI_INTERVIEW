@@ -9,9 +9,10 @@ const prisma = new PrismaClient({
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { userId } = await auth();
+  const {id} = await params;
 
   if (!userId) return NextResponse.json({ error: "Unauthorized" });
   if (req.method !== "DELETE")
@@ -20,7 +21,7 @@ export async function DELETE(
   try {
     // ลบ
     const delInterview = await prisma.interview.deleteMany({
-      where: { id: params.id, userId: userId },
+      where: { id: id, userId: userId },
     });
     // ถ้าid ผิด หรือid ไม่ตรงก็ลบไม่ได้
     if (delInterview.count === 0) {

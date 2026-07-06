@@ -9,12 +9,13 @@ const prisma = new PrismaClient({
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { userId } = await auth();
+  const {id} = await params;
   // userdb
   const userRole = await prisma.user.findUnique({
-    where: { id: params.id, clerkId: userId as string, role: "ADMIN" },
+    where: { id: id, clerkId: userId as string, role: "ADMIN" },
   });
 
   if (!userId) return NextResponse.json({ error: "Unauthorized" });
@@ -27,7 +28,7 @@ export async function DELETE(
   try {
     // ลบ
     const user = await prisma.user.delete({
-      where: { id: params.id },
+      where: { id: id },
     });
     return NextResponse.json(user);
   } catch (error) {
