@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Progress } from "@/components/ui/progress";
 import { MessageSquare, TrendingUp } from "lucide-react";
 import {
   Card,
@@ -22,10 +21,11 @@ export default function FeedBackToUser({
   // คำนวณเป็นเปอร์เซ็นต์
   const Percent = Math.round((technicalScore / max) * 100);
   // communication
-  const communicationScore = (latestInterview?.score as any)?.Communication || 0;
+  const communicationScore =
+    (latestInterview?.score as any)?.Communication || 0;
   const communicationPercent = Math.round((communicationScore / max) * 100);
 
-    const logicScore = (latestInterview?.score as any)?.Logic || 0;
+  const logicScore = (latestInterview?.score as any)?.Logic || 0;
   const logicPercent = Math.round((logicScore / max) * 100);
   // console.log("Percent:", Percent);
   // console.log("Latest Interview Object:", latestInterview);
@@ -39,51 +39,41 @@ export default function FeedBackToUser({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="text-green-500" />
-            คำแนะนำในแต่ละด้าน
+            ทักษะแต่ละด้าน
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Technical Knowledge */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>Technical Knowledge</span>
-              <span className="font-bold">{Percent}%</span>
+          {/* Skills row */}
+          <div className=" sm:grid gap-4 justify-between bg-amber-50 border border-amber-100 p-4 rounded-lg">
+            <div className="sm:grid sm:grid-cols-3 flex flex-row gap-4 items-center justify-between">
+              {/* Technical */}
+              <div className="p-3 border w-[100] rounded-lg text-center">
+                <span className="text-sm font-medium text-slate-700">
+                  Technical
+                </span>
+                <span className="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold text-sm min-w-10 text-center">
+                  {(technicalScore / 10).toFixed(1)}
+                </span>
+              </div>
+              {/* Communication */}
+              <div className="p-3 border rounded-lg text-center">
+                <span className="text-sm font-medium text-slate-700">
+                  Communication
+                </span>
+                <span className="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold text-sm min-w-10 text-center">
+                  {(communicationScore / 10).toFixed(1)}
+                </span>
+              </div>
+              {/* Logic */}
+              <div className="p-3 border rounded-lg text-center">
+                <span className="text-sm font-medium text-slate-700">
+                  Logic
+                </span>
+                <span className="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold text-sm min-w-10 text-center">
+                  {(logicScore / 10).toFixed(1)}
+                </span>
+              </div>
             </div>
-            <Progress
-              value={Percent}
-              className={cn(
-                "h-2",
-                Percent < 50 ? "bg-red-100" : "bg-green-100",
-              )}
-            />
-          </div>
-           {/* Comnication*/}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>Comnication</span>
-              <span className="font-bold">{communicationPercent}%</span>
-            </div>
-            <Progress
-              value={communicationPercent}
-              className={cn(
-                "h-2",
-                communicationPercent < 50 ? "bg-red-100" : "bg-green-100",
-              )}
-            />
-          </div>
-           {/* Logic*/}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>Logic</span>
-              <span className="font-bold">{logicPercent}%</span>
-            </div>
-            <Progress
-              value={logicPercent}
-              className={cn(
-                "h-2",
-                logicPercent < 50 ? "bg-red-100" : "bg-green-100",
-              )}
-            />
           </div>
 
           <div className="bg-amber-50 border border-amber-100 p-4 rounded-lg">
