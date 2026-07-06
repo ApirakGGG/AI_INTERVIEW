@@ -207,7 +207,7 @@ export default function InterviewPage() {
         className={`grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left overflow-hidden transition-all duration-500 ease-in-out ${
           isCalling
             ? "max-h-0 opacity-0 mb-0 pointer-events-none"
-            : "max-h-[300px] opacity-100"
+            : "max-h-75 opacity-100"
         }`}
       >
         <div className="flex flex-col">
@@ -239,16 +239,16 @@ export default function InterviewPage() {
           >
             <option value="Intern">Intern</option>
             <option value="Junior">Junior</option>
-            <option value="Mid-level">Mid-level</option>
+            {/* <option value="Mid-level">Mid-level</option> */}
             <option value="Senior">Senior</option>
-            <option value="Lead">Lead</option>
+            {/* <option value="Lead">Lead</option> */}
           </select>
         </div>
       </div>
 
       {/* ส่วนแสดงซับไทเติล Subtitles */}
-      <div className="min-h-[150px] bg-slate-900 text-green-400 p-8 rounded-2xl shadow-xl mb-8 border border-slate-700 transition-all">
-        <p className="text-xl  font-mono">
+      <div className="min-h-37.5 bg-slate-900 text-green-400 p-8 rounded-2xl shadow-xl mb-8 border border-slate-700 transition-all">
+        <p className="text-xl ">
           {transcript || "เตรียมตัวให้พร้อม แล้วกดปุ่มเริ่มสัมภาษณ์..."}
         </p>
       </div>
@@ -256,7 +256,7 @@ export default function InterviewPage() {
       {/* จับเวลาสัมภาษณ์ */}
       <div className="flex flex-col items-center gap-3">
         {isCalling && (
-          <div className="flex items-center gap-2 text-slate-600 font-mono text-lg">
+          <div className="flex items-center gap-2 text-slate-600 text-lg">
             <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
             <span className="font-bold text-lg">
               {formatTime(elapsedSeconds)}
