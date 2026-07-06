@@ -127,7 +127,7 @@ export default async function Dashboard() {
           <Button
             asChild
             variant={"outline"}
-            className=" text-red-600 bg-slate-600 px-6 py-5 w-50px rounded-xl font-medium shadow-lg flex items-center gap-2"
+            className=" text-red-600 px-6 py-5 w-50px rounded-xl font-medium shadow-lg flex items-center gap-2"
           >
             <Link href="#" className="flex items-center gap-2">
               {levelInfo.next > 0
