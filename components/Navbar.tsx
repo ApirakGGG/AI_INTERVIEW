@@ -16,6 +16,7 @@ import Link from "next/link";
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
   { name: "Interview", href: "/interview", current: false },
+  { name: "ประวัติการสัมภาษณ์", href: "/history", current: false },
   // { name: "Projects", href: "#", current: false },
   // { name: "Calendar", href: "#", current: false },
 ];
@@ -84,7 +85,7 @@ export default function Example() {
           <div className="absolute gap-2 inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             {/* Profile dropdown */}
 
-            <>
+             <>
               <Show when={"signed-in"} >
                 <div className="flex flex-row gap-2 items-center">
                   <UserButton />
