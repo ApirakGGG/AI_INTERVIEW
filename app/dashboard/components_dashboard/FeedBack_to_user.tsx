@@ -47,7 +47,7 @@ export default function FeedBackToUser({
           <div className=" sm:grid gap-4 justify-between bg-amber-50 border border-amber-100 p-4 rounded-lg">
             <div className="sm:grid sm:grid-cols-3 flex flex-row gap-4 items-center justify-between">
               {/* Technical */}
-              <div className="p-3 border rounded-lg text-center">
+              <div className="p-3 border rounded-lg text-center gap-3">
                 <span className="text-sm font-medium text-slate-700">
                   Technical
                 </span>
@@ -56,7 +56,7 @@ export default function FeedBackToUser({
                 </span>
               </div>
               {/* Communication */}
-              <div className="p-3 border rounded-lg text-center">
+              <div className="p-3 border rounded-lg text-center gap-3">
                 <span className="text-sm font-medium text-slate-700">
                   Communication
                 </span>
@@ -65,7 +65,7 @@ export default function FeedBackToUser({
                 </span>
               </div>
               {/* Logic */}
-              <div className="p-3 border rounded-lg text-center">
+              <div className="p-3 border rounded-lg text-center gap-3">
                 <span className="text-sm font-medium text-slate-700">
                   Logic
                 </span>
