@@ -179,7 +179,7 @@ export default function InterviewPage() {
             }
           </div>
 
-          <h2 className="z-10 text-xl font-bold tracking-wide">AI Interviewer</h2>
+          <h2 className="z-10 text-xl font-bold text-white tracking-wide">AI Interviewer</h2>
           <p className={`z-10 text-sm mt-1 font-medium transition-colors duration-300
             ${aiSpeaking ? "text-indigo-300" : "text-slate-500"}`}
           >
@@ -246,7 +246,7 @@ export default function InterviewPage() {
             }
           </div>
 
-          <h2 className="z-10 text-xl font-bold tracking-wide">{user?.fullName || "You"}</h2>
+          <h2 className="z-10 text-xl font-bold text-white  tracking-wide">{user?.fullName || "You"}</h2>
           <p className={`z-10 text-sm mt-1 font-medium transition-colors duration-300
             ${isMuted ? "text-red-400" : userSpeaking && isCalling ? "text-emerald-300" : "text-slate-500"}`}
           >
