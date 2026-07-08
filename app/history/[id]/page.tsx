@@ -53,7 +53,7 @@ function ScoreBox({ label, score }: { label: string, score: number }) {
   return (
     <div className="text-center p-4 border rounded-xl">
       <p className="text-muted-foreground text-sm mb-1">{label}</p>
-      <p className="text-2xl font-bold text-indigo-600">{score}/10</p>
+      <p className="text-2xl font-bold text-indigo-600">{score}/100</p>
     </div>
   );
 }
