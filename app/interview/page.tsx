@@ -330,7 +330,7 @@ export default function InterviewPage() {
 
       {/* ส่วนแสดงซับไทเติล Subtitles */}
       <div className="min-h-37.5 bg-slate-900 text-green-400 p-8 rounded-2xl shadow-xl mb-8 border border-slate-700 transition-all">
-        <p className="text-xl ">
+        <p className="text-lg ">
           {transcript || "เตรียมตัวให้พร้อม แล้วกดปุ่มเริ่มสัมภาษณ์..."}
         </p>
       </div>
