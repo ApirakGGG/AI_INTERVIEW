@@ -70,7 +70,7 @@ ${transcript}
       for (let attempt = 1; attempt <= 2; attempt++) {
         try {
           const response = await genAI.models.generateContent({
-            model: "gemini-3-flash-preview", // quota แยกจาก gemini-2.0-flash
+            model: "gemini-2.0-flash", // quota แยกจาก gemini-2.0-flash
             contents: prompt,
           });
 
