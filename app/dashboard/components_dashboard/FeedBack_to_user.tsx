@@ -48,7 +48,7 @@ export default function FeedBackToUser({
             <div className="sm:grid sm:grid-cols-3 flex flex-row gap-4 items-center justify-between">
               {/* Technical */}
               <div className="p-3 border rounded-lg text-center gap-3">
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-slate-700 gap-3">
                   Technical
                 </span>
                 <span className="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold text-sm min-w-10 text-center">
@@ -57,7 +57,7 @@ export default function FeedBackToUser({
               </div>
               {/* Communication */}
               <div className="p-3 border rounded-lg text-center gap-3">
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-slate-700 gap-3">
                   Communication
                 </span>
                 <span className="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold text-sm min-w-10 text-center">
@@ -66,7 +66,7 @@ export default function FeedBackToUser({
               </div>
               {/* Logic */}
               <div className="p-3 border rounded-lg text-center gap-3">
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-slate-700 gap-3">
                   Logic
                 </span>
                 <span className="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg font-bold text-sm min-w-10 text-center">
