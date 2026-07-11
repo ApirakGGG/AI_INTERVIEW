@@ -1,44 +1,33 @@
-import { auth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/lib/generated/prisma/client";
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@/lib/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { auth } from "@clerk/nextjs/server";
 
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
-});
+const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { userId } = await auth();
-  const {id} = await params;
-
-  if (!userId) return NextResponse.json({ error: "Unauthorized" });
-  if (req.method !== "DELETE")
-    return NextResponse.json({ error: "Method Not Allowed" });
-
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    // ลบ
-    const delInterview = await prisma.interview.deleteMany({
-      where: { id: id, userId: userId },
-    });
-    // ถ้าid ผิด หรือid ไม่ตรงก็ลบไม่ได้
-    if (delInterview.count === 0) {
-      return NextResponse.json(
-        { error: "Record not found or unauthorized" },
-        { status: 404 },
-      );
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    return NextResponse.json({ message: "Deleted successfully" });
+    const { id } = await params;
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    // Check ownership
+    const interview = await prisma.interview.findUnique({ where: { id } });
+    if (!interview || interview.userId !== userId) {
+      return NextResponse.json({ error: "Forbidden or not found" }, { status: 403 });
+    }
+
+    await prisma.interview.delete({ where: { id } });
+    
+    return NextResponse.json({ success: true, message: "Deleted successfully" });
   } catch (error) {
-    console.error("Error deleting interview:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
-  } finally {
-    await prisma.$disconnect();
+    console.error("[DeleteInterview] Error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

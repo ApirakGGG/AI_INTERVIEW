@@ -45,3 +45,10 @@ enum Role {
   ADMIN
   USER
 }
+
+model JobPosition {
+  id        String   @id @default(uuid())
+  category  String
+  title     String   @unique
+  createdAt DateTime @default(now())
+}
