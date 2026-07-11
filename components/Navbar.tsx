@@ -13,29 +13,30 @@ import { Show, UserButton, useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-const navigation = [
-  { name: "Dashboard", href: "/", current: true },
-  { name: "Interview", href: "/interview", current: false },
-  { name: "ประวัติการสัมภาษณ์", href: "/history", current: false },
-  // { name: "Projects", href: "#", current: false },
-  // { name: "Calendar", href: "#", current: false },
-];
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
   const { user, isSignedIn } = useUser();
   const pathname = usePathname();
 
+  const navigation = [
+    { name: "Dashboard", href: "/", current: true },
+    { name: "Interview", href: "/interview", current: false },
+    { name: "ประวัติการสัมภาษณ์", href: "/history", current: false },
+    ...(isAdmin ? [
+      { name: "Admin", href: "/admin/analytics", current: false },
+    ] : []),
+  ];
+
   return (
-    <Disclosure as="nav" className="relative bg-gray-800">
+    <Disclosure as="nav" className="relative bg-background border-b border-border">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 sticky top-0 z-10">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent/10 hover:text-accent-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-primary">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <Bars3Icon
@@ -71,8 +72,8 @@ export default function Example() {
                       aria-current={item.current ? "page" : undefined}
                       className={classNames(
                         pathname === item.href
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-white/5 hover:text-white",
+                          ? "bg-muted text-foreground"
+                          : "text-muted-foreground hover:bg-accent/10 hover:text-foreground",
                         "rounded-md px-3 py-2 text-sm font-medium",
                       )}
                     >
@@ -89,7 +90,7 @@ export default function Example() {
               <Show when={"signed-in"} >
                 <div className="flex flex-row gap-2 items-center">
                   <UserButton />
-                  <p className="text-white text-sm">{user?.fullName}</p>
+                  <p className="text-foreground text-sm">{user?.fullName}</p>
                 </div>
               </Show>
             </>
@@ -99,12 +100,12 @@ export default function Example() {
               <Show when={"signed-out"}>
                 <div className="flex gap-2">
                   <Link href="/sign-up">
-                    <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition">
+                    <button className="px-4 py-2 text-sm font-medium text-white bg-secondary hover:bg-secondary-hover rounded-lg transition">
                       REGISTER
                     </button>
                   </Link>
                   <Link href="/sign-in">
-                    <button className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition">
+                    <button className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-hover rounded-lg transition">
                       LOGIN
                     </button>
                   </Link>
@@ -128,8 +129,8 @@ export default function Example() {
                 aria-current={item.current ? "page" : undefined}
                 className={classNames(
                   pathname === item.href
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-300 hover:bg-white/5 hover:text-white",
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground hover:bg-accent/10 hover:text-foreground",
                   "block rounded-md px-3 py-2 text-base font-medium",
                 )}
               >

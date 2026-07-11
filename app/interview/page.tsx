@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Volume2, Bot, User } from "lucide-react";
 import Image from "next/image";
+import { jobCategories } from "@/lib/jobPositions";
 
 const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY as string);
 
@@ -278,48 +279,51 @@ export default function InterviewPage() {
         }`}
       >
         <div className="flex flex-col">
-          <label className="mb-2 font-semibold text-slate-700">
+          <label className="mb-2 font-semibold text-heading">
             ตำแหน่งที่ต้องการสัมภาษณ์
           </label>
           <select
-            className="p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-white shadow-sm"
+            className="p-3 border border-border rounded-xl focus:ring-2 focus:ring-primary outline-none bg-card shadow-sm text-foreground"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
           >
-            <option value="Software Engineer">Software Engineer</option>
-            <option value="Frontend Developer">Frontend Developer</option>
-            <option value="Backend Developer">Backend Developer</option>
-            <option value="Fullstack Developer">Fullstack Developer</option>
-            <option value="Data Scientist">Data Scientist</option>
-            <option value="Product Manager">Product Manager</option>
+            {jobCategories.map((group) => (
+              <optgroup key={group.category} label={group.category}>
+                {group.titles.map((title) => (
+                  <option key={title} value={title}>
+                    {title}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
           </select>
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-2 font-semibold text-slate-700">
+          <label className="mb-2 font-semibold text-heading">
             ระดับ (Level)
           </label>
           <select
-            className="p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-white shadow-sm"
+            className="p-3 border border-border rounded-xl focus:ring-2 focus:ring-primary outline-none bg-card shadow-sm text-foreground"
             value={level}
             onChange={(e) => setLevel(e.target.value)}
           >
             <option value="Intern">Intern</option>
             <option value="Junior">Junior</option>
             {/* <option value="Mid-level">Mid-level</option> */}
-            <option value="Senior">Senior</option>
+            <option value="Senior">Mid Junior</option>
             {/* <option value="Lead">Lead</option> */}
           </select>
         </div>
 
         {/* Job Description */}
         <div className="flex flex-col md:col-span-2">
-          <label className="mb-2 font-semibold text-slate-700">
+          <label className="mb-2 font-semibold text-heading">
             Job Description{" "}
-            <span className="text-slate-400 font-normal text-sm">(ไม่บังคับ)</span>
+            <span className="text-muted-foreground font-normal text-sm">(ไม่บังคับ)</span>
           </label>
           <textarea
-            className="p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-white shadow-sm resize-none text-sm text-slate-700 placeholder:text-slate-400"
+            className="p-3 border border-border rounded-xl focus:ring-2 focus:ring-primary outline-none bg-card shadow-sm resize-none text-sm text-foreground placeholder:-muted-foreground"
             rows={4}
             placeholder="วาง Job Description ที่นี่ เพื่อให้ AI ออกแบบคำถามให้ตรงกับตำแหน่งงานจริง..."
             value={jobDescription}
@@ -350,8 +354,8 @@ export default function InterviewPage() {
           onClick={isCalling ? () => vapi.stop() : startInterview}
           className={`px-10 py-6 rounded-xl font-bold text-white text-lg transition-all cursor-pointer shadow-lg w-full md:w-auto ${
             isCalling
-              ? "bg-red-500 hover:bg-red-600 shadow-red-500/30"
-              : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30"
+              ? "bg-destructive hover:opacity-90 shadow-destructive/30"
+              : "bg-accent hover:bg-accent-hover shadow-accent/30"
           }`}
         >
           {isCalling ? "จบการสัมภาษณ์" : "เริ่มพูดคุยตอนนี้"}

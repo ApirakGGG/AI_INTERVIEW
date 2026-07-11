@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Calendar, Clock, ChevronRight } from "lucide-react";
+import DeleteButton from "./DeleteButton";
 
 export default async function HistoryPage() {
   const { userId } = await auth();
@@ -86,11 +87,14 @@ export default async function HistoryPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Link href={`/history/${item.id}`}>
-                      <Button variant="ghost" size="sm" className="group-hover:translate-x-1 transition-transform">
-                        ดูผลวิเคราะห์ <ChevronRight size={16} className="ml-1" />
-                      </Button>
-                    </Link>
+                    <div className="flex justify-end items-center gap-2">
+                      <Link href={`/history/${item.id}`}>
+                        <Button variant="ghost" size="sm" className="group-hover:translate-x-1 transition-transform">
+                          ดูผลวิเคราะห์ <ChevronRight size={16} className="ml-1" />
+                        </Button>
+                      </Link>
+                      <DeleteButton id={item.id} />
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
