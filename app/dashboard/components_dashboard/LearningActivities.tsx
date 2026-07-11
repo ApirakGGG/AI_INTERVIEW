@@ -86,12 +86,11 @@ export function LearningActivities({
     currentDate.setDate(currentDate.getDate() + 1);
   }
   
-  // ฟังก์ชันกำหนดสีความเข้มตามจำนวนครั้งในการฝึก
   const getColorClass = (count: number) => {
-    if (count === 0) return "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200";
-    if (count === 1) return "bg-violet-400 dark:bg-violet-900/60 hover:bg-violet-600";
-    if (count === 2) return "bg-violet-600 dark:bg-violet-700/80 hover:bg-violet-800";
-    return "bg-violet-700 dark:bg-violet-500 hover:bg-violet-900";
+    if (count === 0) return "bg-background border border-border hover:bg-muted/50";
+    if (count === 1) return "bg-primary/30 border border-primary/10 hover:bg-primary/40 text-transparent";
+    if (count === 2) return "bg-primary/60 border border-primary/10 hover:bg-primary/70 text-transparent";
+    return "bg-primary border border-primary/20 hover:bg-primary/90 text-transparent shadow-sm";
   };
 
   // จัดกลุ่มข้อมูลแยกตามสัปดาห์สัปดาห์ละ 7 วันเป็น 1 คอลัมน์
@@ -117,11 +116,11 @@ export function LearningActivities({
   });
 
   return (
-    <Card className="shadow-sm border-slate-100 bg-white">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-bold flex items-center gap-2 text-slate-800">
-          <Calendar className="text-indigo-600" size={18} />
-          กิจกรรมการเรียนรู้
+    <Card className="shadow-card border-border bg-card">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-xl font-bold cn-font-heading flex items-center gap-2 text-heading">
+          <Calendar className="text-secondary size-5" />
+          Learning Activities
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -170,14 +169,13 @@ export function LearningActivities({
           </div>
         </div>
         
-        {/* คำอธิบายความหมายของแต่ละสี */}
-        <div className="flex items-center justify-end gap-1.5 mt-3 text-xs text-slate-400">
-          <span>น้อย</span>
-          <div className="w-3 h-3 rounded-xs shrink-0 bg-slate-100 dark:bg-slate-800" style={{ width: "12px", height: "12px" }} />
-          <div className="w-3 h-3 rounded-xs shrink-0 bg-violet-200 dark:bg-violet-900" style={{ width: "12px", height: "12px" }} />
-          <div className="w-3 h-3 rounded-xs shrink-0 bg-violet-400 dark:bg-violet-700" style={{ width: "12px", height: "12px" }} />
-          <div className="w-3 h-3 rounded-xs shrink-0 bg-violet-600 dark:bg-violet-500" style={{ width: "12px", height: "12px" }} />
-          <span>มาก</span>
+        <div className="flex items-center justify-end gap-2 mt-4 text-xs text-muted-foreground font-medium">
+          <span>Less</span>
+          <div className="w-3 h-3 rounded-[3px] border border-border bg-background" style={{ width: "12px", height: "12px" }} />
+          <div className="w-3 h-3 rounded-[3px] bg-primary/30" style={{ width: "12px", height: "12px" }} />
+          <div className="w-3 h-3 rounded-[3px] bg-primary/60" style={{ width: "12px", height: "12px" }} />
+          <div className="w-3 h-3 rounded-[3px] bg-primary" style={{ width: "12px", height: "12px" }} />
+          <span>More</span>
         </div>
       </CardContent>
     </Card>

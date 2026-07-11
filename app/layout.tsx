@@ -2,8 +2,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Poppins, Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -34,11 +35,12 @@ export default function RootLayout({
         >
           {/* จัด layout nav+footer */}
           <div className="relative flex min-h-screen flex-col">
-            <Navbar />
+            <NavbarWrapper />
             <main className="flex-1 w-full mx-auto px-4 max-w-7xl sm:px-6 lg:px-8 py-8">
               {children}
             </main>
             <Footer />
+            <Toaster position="bottom-right" richColors />
           </div>
         </body>
       </ClerkProvider>
