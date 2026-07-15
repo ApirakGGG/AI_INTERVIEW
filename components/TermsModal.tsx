@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function TermsModal({ onAccept }: { onAccept: () => void }) {
+export default function TermsModal({ onAccept, onClose }: { onAccept: () => void, onClose?: () => void }) {
   const [isChecked, setIsChecked] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -28,9 +28,16 @@ export default function TermsModal({ onAccept }: { onAccept: () => void }) {
       <div className="relative z-10 w-full max-w-2xl bg-card rounded-2xl shadow-2xl border border-border overflow-hidden animate-in fade-in zoom-in-95 duration-300">
         <div className="p-6 md:p-8 flex flex-col h-full max-h-[90vh]">
           {/* Header */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold cn-font-heading text-heading">Terms of Service & Privacy Policy Updates</h2>
-            <p className="text-sm text-muted-foreground mt-1">Please review the updated agreements before accessing your dashboard.</p>
+          <div className="mb-6 flex justify-between items-start">
+            <div>
+              <h2 className="text-2xl font-bold cn-font-heading text-heading">Terms of Service & Privacy Policy Updates</h2>
+              <p className="text-sm text-muted-foreground mt-1">Please review the updated agreements before accessing your platform.</p>
+            </div>
+            {onClose && (
+              <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full text-slate-500 transition-colors">
+                <X className="size-5" />
+              </button>
+            )}
           </div>
 
           {/* Scrollable Text Area */}

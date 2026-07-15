@@ -19,7 +19,16 @@ export default function TermsModalWrapper() {
     setShowModal(false);
   };
 
-  if (!showModal) return null;
+  return (
+    <>
+      <button 
+        onClick={() => setShowModal(true)}
+        className="fixed bottom-6 left-6 z-40 bg-white/80 backdrop-blur-md border border-slate-200 shadow-lg text-slate-600 px-4 py-2 text-sm font-medium rounded-full hover:bg-white hover:text-slate-900 transition-all hover:-translate-y-1 flex items-center gap-2"
+      >
+        <span>📜</span> ข้อกำหนดและเงื่อนไข
+      </button>
 
-  return <TermsModal onAccept={handleAccept} />;
+      {showModal && <TermsModal onAccept={handleAccept} onClose={() => setShowModal(false)} />}
+    </>
+  );
 }

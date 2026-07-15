@@ -2,6 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 // Matcher ที่เป็น Public เวลาtest postman จะไม่ต้อง Log in
 const isPublicRoute = createRouteMatcher([
+  '/',
   '/sign-in(.*)', 
   '/sign-up(.*)', 
   '/api/webhooks(.*)', 
