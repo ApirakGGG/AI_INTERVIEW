@@ -4,6 +4,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import Link from "next/link";
 import { Mic, History, Star, Award, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 import { StatsCard } from "./components_dashboard/StatsCard";
 import { RecentInterviewsTable } from "./components_dashboard/InterviewTable";
@@ -22,7 +23,9 @@ export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
   const { userId } = await auth();
-  if (!userId) return null;
+  if (!userId) {
+    redirect("/");
+  }
 
   // Aggregate user data and basic stats
   const user = await prisma.user.findUnique({
