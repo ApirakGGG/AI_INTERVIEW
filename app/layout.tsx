@@ -30,7 +30,7 @@ export default function RootLayout({
         {/* ออกแบบ layout  */}
         <body
           className={cn(
-            `${poppins.className} antialiased min-h-screen bg-background`,
+            `${poppins.className} antialiased min-h-screen bg-background overflow-x-hidden`,
           )}
         >
           {/* จัด layout nav+footer */}
