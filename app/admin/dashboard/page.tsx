@@ -34,7 +34,7 @@ export default async function AdminDetailedDashboardPage() {
   // Aggregation 2: Average Score By Topic
   const topicMap: Record<string, { total: number; count: number }> = {};
   allInterviews.forEach((interview) => {
-    const pos = interview.position.substring(0, 15) || "General";
+    const pos = interview.position.substring(0, 15) || "ทั่วไป";
     if (!topicMap[pos]) topicMap[pos] = { total: 0, count: 0 };
     topicMap[pos].total += interview.averageScore || 0;
     topicMap[pos].count += 1;
@@ -47,7 +47,7 @@ export default async function AdminDetailedDashboardPage() {
   // Aggregation 3: Level Distribution
   const levelMap: Record<string, number> = {};
   allInterviews.forEach((interview) => {
-    const level = interview.level || "Unknown";
+    const level = interview.level || "ไม่ระบุ";
     levelMap[level] = (levelMap[level] || 0) + 1;
   });
   const levelData = Object.keys(levelMap).map(key => ({
@@ -58,8 +58,8 @@ export default async function AdminDetailedDashboardPage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
-        <h1 className="text-3xl font-bold cn-font-heading text-heading mb-2">Detailed Graph Analytics</h1>
-        <p className="text-muted-foreground text-sm">Comprehensive platform summary charts and metric visualizations.</p>
+        <h1 className="text-3xl font-bold cn-font-heading text-heading mb-2">สถิติและกราฟวิเคราะห์เชิงลึก</h1>
+        <p className="text-muted-foreground text-sm">แผนภูมิสรุปและข้อมูลการใช้งานแพลตฟอร์มโดยละเอียด</p>
       </div>
 
       <AdminGraphsView 

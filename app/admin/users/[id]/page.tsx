@@ -26,10 +26,10 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
   if (!user) {
     return (
       <div className="p-10 flex flex-col items-center justify-center text-center space-y-4">
-        <h2 className="text-2xl font-bold text-heading">User Not Found</h2>
-        <p className="text-muted-foreground">The specified user does not exist in the database.</p>
+        <h2 className="text-2xl font-bold text-heading">ไม่พบข้อมูลผู้ใช้งาน</h2>
+        <p className="text-muted-foreground">ไม่พบผู้ใช้งานที่ระบุในระบบ</p>
         <Button asChild variant="outline">
-          <Link href="/admin/users">Return to Directory</Link>
+          <Link href="/admin/users">กลับไปหน้าสารบัญสมาชิก</Link>
         </Button>
       </div>
     );
@@ -50,7 +50,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <Link href="/admin/users" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-colors mb-3">
-            <ChevronLeft className="size-4 mr-1" /> Back to Members
+            <ChevronLeft className="size-4 mr-1" /> กลับไปหน้ารายชื่อสมาชิก
           </Link>
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-primary/20 text-primary flex items-center justify-center text-2xl font-bold shadow-sm">
@@ -61,7 +61,9 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
               <div className="flex items-center gap-2 mt-1">
                 <p className="text-muted-foreground text-sm">{user.email}</p>
                 <div className="w-1 h-1 rounded-full bg-border" />
-                <Badge variant="outline" className="text-xs bg-muted/50">{user.role}</Badge>
+                <Badge variant="outline" className="text-xs bg-muted/50">
+                  {user.role === "ADMIN" ? "ผู้ดูแลระบบ" : "สมาชิกผู้ใช้งาน"}
+                </Badge>
               </div>
             </div>
           </div>
@@ -71,24 +73,24 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
       {/* KPI Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatsCard
-          title="Total Sessions"
+          title="จำนวนสัมภาษณ์ทั้งหมด"
           value={totalInterviews.toString()}
           icon={<History className="size-5" />}
-          description={`Joined ${new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(new Date(user.createdAt))}`}
+          description={`เป็นสมาชิกเมื่อ ${new Intl.DateTimeFormat('th-TH', { month: 'long', year: 'numeric' }).format(new Date(user.createdAt))}`}
           intent="primary"
         />
         <StatsCard
-          title="Average Score"
+          title="คะแนนเฉลี่ย"
           value={`${avgScore}/100`}
           icon={<Star className="size-5" />}
-          description={totalInterviews > 0 ? "Overall performance metric" : "No data available"}
+          description={totalInterviews > 0 ? "ผลการประเมินภาพรวม" : "ไม่มีข้อมูล"}
           intent="secondary"
         />
         <StatsCard
-          title="Total Practice Time"
+          title="เวลารวมที่ใช้ฝึกซ้อม"
           value={`${displayTime}`}
           icon={<Clock className="size-5" />}
-          description="Cumulative audio processing time"
+          description="เวลาประมวลผลเสียงสะสม"
           intent="accent"
         />
       </div>
@@ -97,35 +99,35 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
       <div className="w-full mt-8">
         <Card className="shadow-card border-border h-full flex flex-col">
           <CardHeader>
-            <CardTitle className="text-lg cn-font-heading">Detailed Interview History</CardTitle>
+            <CardTitle className="text-lg cn-font-heading">ประวัติการสัมภาษณ์โดยละเอียด</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-left min-w-[700px]">
                 <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
                   <tr>
-                    <th className="px-4 py-3 font-medium rounded-tl-lg">Topic Position</th>
-                    <th className="px-4 py-3 font-medium">Level</th>
-                    <th className="px-4 py-3 font-medium">Date Completed</th>
-                    <th className="px-4 py-3 font-medium">Duration</th>
-                    <th className="px-4 py-3 font-medium text-center">Score</th>
-                    <th className="px-4 py-3 font-medium rounded-tr-lg text-right">Status</th>
+                    <th className="px-4 py-3 font-medium rounded-tl-lg">หัวข้อ / ตำแหน่ง</th>
+                    <th className="px-4 py-3 font-medium">ระดับ</th>
+                    <th className="px-4 py-3 font-medium">วันที่ทำรายการ</th>
+                    <th className="px-4 py-3 font-medium">ระยะเวลา</th>
+                    <th className="px-4 py-3 font-medium text-center">คะแนน</th>
+                    <th className="px-4 py-3 font-medium rounded-tr-lg text-right">สถานะ</th>
                   </tr>
                 </thead>
                 <tbody>
                   {user.interviews.map((interview) => (
                     <tr key={interview.id} className="border-b last:border-0 border-border hover:bg-accent/5 transition-colors">
                       <td className="px-4 py-4 font-bold text-heading">
-                        {interview.position || "Custom Topic"}
+                        {interview.position || "หัวข้อกำหนดเอง"}
                       </td>
                       <td className="px-4 py-4 text-body">
-                        {interview.level || "N/A"}
+                        {interview.level || "ไม่ระบุ"}
                       </td>
                       <td className="px-4 py-4 text-muted-foreground">
-                        {new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(interview.createdAt))}
+                        {new Intl.DateTimeFormat('th-TH', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(interview.createdAt))}
                       </td>
                       <td className="px-4 py-4 text-body">
-                        {interview.duration ? `${Math.floor(interview.duration / 60)}m ${interview.duration % 60}s` : "N/A"}
+                        {interview.duration ? `${Math.floor(interview.duration / 60)} นาที ${interview.duration % 60} วินาที` : "N/A"}
                       </td>
                       <td className="px-4 py-4 text-center">
                         <span className={`font-bold text-sm px-3 py-1 rounded-md border ${
@@ -144,7 +146,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                             : "bg-muted text-muted-foreground"
                           }
                         >
-                          {interview.status}
+                          {interview.status === "completed" ? "เสร็จสมบูรณ์" : interview.status}
                         </Badge>
                       </td>
                     </tr>
@@ -152,7 +154,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                   {user.interviews.length === 0 && (
                     <tr>
                       <td colSpan={6} className="text-center py-8 text-muted-foreground">
-                        This user hasn't completed any interviews yet.
+                        ผู้ใช้รายนี้ยังไม่มีประวัติการสัมภาษณ์
                       </td>
                     </tr>
                   )}

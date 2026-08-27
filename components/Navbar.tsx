@@ -26,7 +26,7 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
     { name: "Interview", href: "/interview", current: false },
     { name: "ประวัติการสัมภาษณ์", href: "/history", current: false },
     ...(isAdmin ? [
-      { name: "Admin", href: "/admin/analytics", current: false },
+      { name: "Admin", href: "/admin/dashboard", current: false },
     ] : []),
   ];
 

@@ -32,8 +32,8 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
       {/* Line Chart: Interviews over time */}
       <Card className="shadow-card border-border bg-card">
         <CardHeader>
-          <CardTitle className="cn-font-heading text-heading">Interview Engagement Timeline</CardTitle>
-          <CardDescription>Number of interviews attempted natively over time.</CardDescription>
+          <CardTitle className="cn-font-heading text-heading">แนวโน้มการเข้าใช้งานการสัมภาษณ์</CardTitle>
+          <CardDescription>จำนวนครั้งที่มีการฝึกสัมภาษณ์สะสมตามช่วงเวลา</CardDescription>
         </CardHeader>
         <CardContent className="h-[400px]">
           {timelineData.length > 0 ? (
@@ -55,7 +55,7 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex h-full items-center justify-center text-muted-foreground text-sm">No timeline data available</div>
+            <div className="flex h-full items-center justify-center text-muted-foreground text-sm">ไม่มีข้อมูลตามช่วงเวลา</div>
           )}
         </CardContent>
       </Card>
@@ -65,8 +65,8 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
         {/* Bar Chart: Scores by Topic */}
         <Card className="shadow-card border-border bg-card">
           <CardHeader>
-            <CardTitle className="cn-font-heading text-heading">Average Scores by Topic</CardTitle>
-            <CardDescription>Comparing aggregate user performance across positions.</CardDescription>
+            <CardTitle className="cn-font-heading text-heading">คะแนนเฉลี่ยแบ่งตามหัวข้อ</CardTitle>
+            <CardDescription>เปรียบเทียบประสิทธิภาพคะแนนเฉลี่ยในแต่ละตำแหน่ง</CardDescription>
           </CardHeader>
           <CardContent className="h-[350px]">
             {topicData.length > 0 ? (
@@ -83,7 +83,7 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-full items-center justify-center text-muted-foreground text-sm">No score data available</div>
+              <div className="flex h-full items-center justify-center text-muted-foreground text-sm">ไม่มีข้อมูลคะแนน</div>
             )}
           </CardContent>
         </Card>
@@ -91,8 +91,8 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
         {/* Pie Chart: Level Distribution */}
         <Card className="shadow-card border-border bg-card">
           <CardHeader>
-            <CardTitle className="cn-font-heading text-heading">Candidate Level Distribution</CardTitle>
-            <CardDescription>Breakdown by application seniority levels.</CardDescription>
+            <CardTitle className="cn-font-heading text-heading">สัดส่วนระดับประสบการณ์ผู้สมัคร</CardTitle>
+            <CardDescription>สัดส่วนแบ่งตามระดับความเชี่ยวชาญ/ประสบการณ์</CardDescription>
           </CardHeader>
           <CardContent className="h-[350px]">
             {levelData.length > 0 ? (
@@ -118,7 +118,7 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-full items-center justify-center text-muted-foreground text-sm">No level data available</div>
+              <div className="flex h-full items-center justify-center text-muted-foreground text-sm">ไม่มีข้อมูลระดับ</div>
             )}
           </CardContent>
         </Card>

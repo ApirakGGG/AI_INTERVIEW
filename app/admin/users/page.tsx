@@ -23,26 +23,26 @@ export default async function AdminUsersPage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
-        <h1 className="text-3xl font-bold cn-font-heading text-heading mb-2">Members Directory</h1>
-        <p className="text-muted-foreground text-sm">View all registered users on the platform.</p>
+        <h1 className="text-3xl font-bold cn-font-heading text-heading mb-2">รายชื่อสมาชิกผู้ใช้งาน</h1>
+        <p className="text-muted-foreground text-sm">ดูข้อมูลและจัดการผู้ใช้ทั้งหมดที่ลงทะเบียนในระบบ</p>
       </div>
 
       <div className="w-full">
         <Card className="shadow-card border-border h-full flex flex-col">
           <CardHeader>
-            <CardTitle className="text-lg cn-font-heading">All Users</CardTitle>
+            <CardTitle className="text-lg cn-font-heading">ผู้ใช้ทั้งหมด</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-left min-w-[800px]">
                 <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
                   <tr>
-                    <th className="px-4 py-3 font-medium rounded-tl-lg">User Name</th>
-                    <th className="px-4 py-3 font-medium">Email</th>
-                    <th className="px-4 py-3 font-medium">Role</th>
-                    <th className="px-4 py-3 font-medium">Joined Date</th>
-                    <th className="px-4 py-3 font-medium">Total Interviews</th>
-                    <th className="px-4 py-3 font-medium rounded-tr-lg text-right">Actions</th>
+                    <th className="px-4 py-3 font-medium rounded-tl-lg">ชื่อผู้ใช้</th>
+                    <th className="px-4 py-3 font-medium">อีเมล</th>
+                    <th className="px-4 py-3 font-medium">สิทธิ์การใช้งาน</th>
+                    <th className="px-4 py-3 font-medium">วันที่สมัครสมาชิก</th>
+                    <th className="px-4 py-3 font-medium">จำนวนสัมภาษณ์ทั้งหมด</th>
+                    <th className="px-4 py-3 font-medium rounded-tr-lg text-right">การจัดการ</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -63,11 +63,11 @@ export default async function AdminUsersPage() {
                             : "bg-muted text-muted-foreground border-border"
                           }
                         >
-                          {u.role}
+                          {u.role === "ADMIN" ? "ผู้ดูแลระบบ" : "สมาชิกผู้ใช้งาน"}
                         </Badge>
                       </td>
                       <td className="px-4 py-4 text-muted-foreground">
-                        {new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(u.createdAt))}
+                        {new Intl.DateTimeFormat('th-TH', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(u.createdAt))}
                       </td>
                       <td className="px-4 py-4 text-body font-bold text-center">
                         {u._count.interviews}
@@ -77,7 +77,7 @@ export default async function AdminUsersPage() {
                           href={`/admin/users/${u.clerkId}`}
                           className="text-primary hover:text-primary-hover font-semibold hover:underline decoration-primary/30 underline-offset-4 transition-all"
                         >
-                          View Details
+                          ดูรายละเอียด
                         </Link>
                       </td>
                     </tr>
@@ -85,7 +85,7 @@ export default async function AdminUsersPage() {
                   {users.length === 0 && (
                     <tr>
                       <td colSpan={6} className="text-center py-8 text-muted-foreground">
-                        No users found in database.
+                        ไม่พบข้อมูลผู้ใช้ในระบบ
                       </td>
                     </tr>
                   )}
