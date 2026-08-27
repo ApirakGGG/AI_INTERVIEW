@@ -71,7 +71,6 @@ export default async function LandingPage() {
 
   return (
     <div className={`w-screen relative left-1/2 -translate-x-1/2 ${ibmPlex.className} -mt-8 overflow-hidden`}>
-      <TermsModalWrapper />
 
       {/* ── Keyframe Animations ── */}
       <style
