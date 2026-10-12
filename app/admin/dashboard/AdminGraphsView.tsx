@@ -23,7 +23,7 @@ type Props = {
   levelData: { name: string; value: number }[];
 };
 
-const COLORS = ["#f97316", "#fb923c", "#fdba74", "#fed7aa", "#ffedd5"]; // Orange semantics
+const COLORS = ["#22c55e", "#2dd4bf", "#f59e0b", "#f472b6", "#94a3b8"];
 
 export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
   return (
@@ -39,7 +39,7 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
           {timelineData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={timelineData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 12 }} />
                 <YAxis stroke="#64748b" tick={{ fontSize: 12 }} allowDecimals={false} />
                 <Tooltip 
@@ -48,9 +48,9 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
                 <Line 
                   type="monotone" 
                   dataKey="interviews" 
-                  stroke="#f97316" 
-                  strokeWidth={3}
-                  activeDot={{ r: 8, fill: "#ea580c" }} 
+                  stroke="#22c55e" 
+                  strokeWidth={2.5}
+                  activeDot={{ r: 6, fill: "#16a34a" }} 
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -72,14 +72,14 @@ export function AdminGraphsView({ timelineData, topicData, levelData }: Props) {
             {topicData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={topicData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
                   <XAxis type="number" domain={[0, 100]} stroke="#64748b" tick={{ fontSize: 12 }} />
                   <YAxis dataKey="topic" type="category" stroke="#64748b" tick={{ fontSize: 12 }} width={100} />
                   <Tooltip 
-                    cursor={{ fill: 'rgba(249, 115, 22, 0.05)' }}
+                    cursor={{ fill: 'rgba(45, 212, 191, 0.05)' }}
                     contentStyle={{ borderRadius: "8px", border: "1px solid #e2e8f0" }}
                   />
-                  <Bar dataKey="score" fill="#f97316" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="score" fill="#2dd4bf" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (

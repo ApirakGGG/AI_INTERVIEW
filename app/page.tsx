@@ -70,8 +70,9 @@ export default async function LandingPage() {
     new Intl.NumberFormat("en-US").format(num);
 
   return (
-    <div className={`w-screen relative left-1/2 -translate-x-1/2 ${ibmPlex.className} -mt-8 overflow-hidden`}>
-
+    <div
+      className={`w-screen relative left-1/2 -translate-x-1/2 ${ibmPlex.className} -mt-8 overflow-hidden`}
+    >
       {/* ── Keyframe Animations ── */}
       <style
         dangerouslySetInnerHTML={{
@@ -149,23 +150,32 @@ export default async function LandingPage() {
             <div className="flex items-center justify-center sm:justify-start gap-4 pt-8 mt-4 border-t border-slate-800/50 w-full sm:max-w-md">
               <div className="flex -space-x-3">
                 <div className="w-12 h-12 rounded-full bg-slate-300 border-[3px] border-slate-950 overflow-hidden shadow-lg z-30 relative transition-transform hover:scale-110 hover:z-40">
-                  <img src={avatarsToShow[0]} alt="user 1" className="w-full h-full object-cover" />
+                  <img
+                    src={avatarsToShow[0]}
+                    alt="user 1"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="w-12 h-12 rounded-full bg-slate-300 border-[3px] border-slate-950 overflow-hidden shadow-lg z-20 relative transition-transform hover:scale-110 hover:z-40">
-                  <img src={avatarsToShow[1]} alt="user 2" className="w-full h-full object-cover" />
+                  <img
+                    src={avatarsToShow[1]}
+                    alt="user 2"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="w-12 h-12 rounded-full bg-slate-300 border-[3px] border-slate-950 overflow-hidden shadow-lg z-10 relative transition-transform hover:scale-110 hover:z-40">
-                  <img src={avatarsToShow[2]} alt="user 3" className="w-full h-full object-cover" />
+                  <img
+                    src={avatarsToShow[2]}
+                    alt="user 3"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="w-12 h-12 rounded-full bg-slate-800 border-[3px] border-slate-950 flex items-center justify-center text-xs font-bold text-emerald-400 shadow-lg relative z-0">
                   +{formatNumber(userCount > 0 ? userCount : 5000)}
                 </div>
               </div>
-            
             </div>
-            
           </div>
-          
 
           {/* Right Content - Mock Dashboard */}
           <div className="relative w-full max-w-lg mx-auto lg:mr-0 animate-float pt-10 lg:pt-0">
@@ -235,7 +245,6 @@ export default async function LandingPage() {
           </div>
         </div>
       </section>
-
 
       {/* ── STEPS SECTION ── */}
       <section className="py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 bg-white flex justify-center relative">

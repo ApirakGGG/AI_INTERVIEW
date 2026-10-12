@@ -28,7 +28,7 @@ export default async function HistoryPage() {
     <div className="max-w-6xl mx-auto py-10 px-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="flex text-3xl font-bold">ประวัติการสัมภาษณ์ของ <p className="text-indigo-600 ml-2"> {user?.name}</p></h1>
+          <h1 className="flex text-3xl font-bold">ประวัติการสัมภาษณ์ของ <p className="text-primary ml-2"> {user?.name}</p></h1>
           <p className="text-muted-foreground">รวมการฝึกซ้อมทั้งหมดของคุณที่ผ่านมา</p>
         </div>
         <Badge variant="outline" className="text-sm py-1 px-4">
@@ -38,7 +38,7 @@ export default async function HistoryPage() {
 
       <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
         <Table>
-          <TableHeader className="bg-slate-50/50">
+          <TableHeader className="bg-[#faf8f5]">
             <TableRow>
               <TableHead className="w-[300px]">ตำแหน่ง / ข้อมูล</TableHead>
               <TableHead>วันที่ฝึก</TableHead>
@@ -56,15 +56,15 @@ export default async function HistoryPage() {
               </TableRow>
             ) : (
               interviews.map((item) => (
-                <TableRow key={item.id} className="group hover:bg-slate-50/50 transition-colors">
+                <TableRow key={item.id} className="group hover:bg-accent/5 transition-colors">
                   <TableCell>
                     <div className="flex flex-col">
-                      <span className="font-semibold text-slate-900">{item.position || "ไม่ได้ระบุตำแหน่ง"}</span>
+                      <span className="font-semibold text-heading">{item.position || "ไม่ได้ระบุตำแหน่ง"}</span>
                       <span className="text-xs text-muted-foreground uppercase">{item.level || "General"}</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Calendar size={14} />
                       {new Date(item.createdAt).toLocaleDateString('th-TH', {
                         day: 'numeric', month: 'short', year: '2-digit'
@@ -72,7 +72,7 @@ export default async function HistoryPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Clock size={14} />
                       {Math.floor((item.duration || 0) / 60)} นาที
                     </div>

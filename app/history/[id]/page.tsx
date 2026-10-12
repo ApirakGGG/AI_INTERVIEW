@@ -18,7 +18,7 @@ export default async function InterviewDetails({ params }: { params: Promise<{ i
   return (
     <div className="max-w-4xl mx-auto py-10 px-4 space-y-8">
       {/* ส่วนหัว: สรุปคะแนน */}
-      <section className="bg-white p-8 rounded-2xl border shadow-sm">
+      <section className="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-[0_2px_16px_rgba(0,0,0,0.05)]">
         <h2 className="text-2xl font-bold mb-4">ผลการวิเคราะห์โดย AI</h2>
         <div className="grid grid-cols-3 gap-4">
           <ScoreBox label="ตรรกะ" score={(interview.score as any)?.Logic} />
@@ -32,7 +32,7 @@ export default async function InterviewDetails({ params }: { params: Promise<{ i
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <MessageSquare size={20} /> บทสนทนาย้อนหลัง
         </h3>
-        <div className="bg-slate-50 p-6 rounded-xl border font-mono text-sm leading-relaxed whitespace-pre-wrap">
+        <div className="bg-[#faf8f5] p-6 rounded-xl border border-slate-200/60 text-sm leading-relaxed whitespace-pre-wrap">
           {interview.transcript}
         </div>
       </section>
@@ -41,7 +41,7 @@ export default async function InterviewDetails({ params }: { params: Promise<{ i
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <MessageSquare size={20} /> คำแนะนำ
         </h3>
-        <div className="bg-slate-50 p-6 rounded-xl border font-mono text-sm leading-relaxed whitespace-pre-wrap">
+        <div className="bg-[#faf8f5] p-6 rounded-xl border border-slate-200/60 text-sm leading-relaxed whitespace-pre-wrap">
           {interview.feedback}
         </div>
       </section>
@@ -51,9 +51,9 @@ export default async function InterviewDetails({ params }: { params: Promise<{ i
 
 function ScoreBox({ label, score }: { label: string, score: number }) {
   return (
-    <div className="text-center p-4 border rounded-xl">
+    <div className="text-center p-4 border border-slate-200/60 rounded-xl shadow-sm bg-white">
       <p className="text-muted-foreground text-sm mb-1">{label}</p>
-      <p className="text-2xl font-bold text-indigo-600">{score}/100</p>
+      <p className="text-2xl font-bold text-primary">{score}/100</p>
     </div>
   );
 }

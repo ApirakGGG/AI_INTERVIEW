@@ -58,8 +58,8 @@ export default async function AdminDetailedDashboardPage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
-        <h1 className="text-3xl font-bold cn-font-heading text-heading mb-2">สถิติและกราฟวิเคราะห์เชิงลึก</h1>
-        <p className="text-muted-foreground text-sm">แผนภูมิสรุปและข้อมูลการใช้งานแพลตฟอร์มโดยละเอียด</p>
+        <h1 className="text-3xl font-semibold cn-font-heading text-heading mb-2">ภาพรวมข้อมูลแพลตฟอร์ม</h1>
+        <p className="text-muted-foreground text-sm">สรุปแนวโน้มการใช้งานและประสิทธิภาพของผู้ใช้</p>
       </div>
 
       <AdminGraphsView 

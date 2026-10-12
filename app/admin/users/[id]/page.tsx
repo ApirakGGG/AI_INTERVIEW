@@ -53,7 +53,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
             <ChevronLeft className="size-4 mr-1" /> กลับไปหน้ารายชื่อสมาชิก
           </Link>
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-primary/20 text-primary flex items-center justify-center text-2xl font-bold shadow-sm">
+            <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl font-bold shadow-sm">
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div>
