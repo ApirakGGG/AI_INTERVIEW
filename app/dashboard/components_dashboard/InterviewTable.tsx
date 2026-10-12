@@ -7,7 +7,7 @@ export function RecentInterviewsTable({ data }: { data: any[] }) {
   return (
     <div className="space-y-4 px-6 py-6 h-full flex flex-col">
       <div className="flex items-center justify-between pb-2">
-        <h2 className="text-xl font-bold cn-font-heading text-heading">Recent Interviews</h2>
+        <h2 className="text-xl font-bold cn-font-heading text-heading">การสัมภาษณ์ล่าสุด</h2>
       </div>
 
       <div className="space-y-3 flex-1 overflow-auto custom-scrollbar">
@@ -45,7 +45,7 @@ export function RecentInterviewsTable({ data }: { data: any[] }) {
                   </div>
                 </div>
                 <div className="text-right flex flex-col items-end gap-1">
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground mr-1">Score</span>
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground mr-1">คะแนน</span>
                   <span
                     className={cn(
                       "font-bold text-sm px-3 py-1 rounded-md border",
@@ -68,7 +68,7 @@ export function RecentInterviewsTable({ data }: { data: any[] }) {
           href="/history"
           className="w-full mt-4 py-3 border border-border bg-background hover:bg-accent/10 hover:text-accent hover:border-accent/30 font-bold text-sm rounded-xl transition-all text-center block shadow-sm"
         >
-          View All History
+          ดูประวัติทั้งหมด
         </Link>
       )}
     </div>

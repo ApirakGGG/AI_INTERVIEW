@@ -18,8 +18,8 @@ export function StatsCard({ title, value, icon, description, intent = "default" 
   };
 
   return (
-    <Card className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default bg-card border-border shadow-card relative overflow-hidden">
-      <div className={`absolute top-0 right-0 w-24 h-24 rounded-bl-full opacity-5 ${getIconColors(intent).split(" ")[0]}`} />
+    <Card className="hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default bg-card border-border shadow-card relative overflow-hidden">
+      {/* Intentionally no decorative blob — clean surface */}
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 relative z-10">
         <CardTitle className="text-[13px] uppercase tracking-wider font-bold text-muted-foreground">
           {title}

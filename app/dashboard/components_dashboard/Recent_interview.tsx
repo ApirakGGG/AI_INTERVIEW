@@ -38,7 +38,7 @@ export default async function ReacntInterviews() {
             </CardDescription>
           </div>
           <Button
-            className="text-sm text-indigo-600 hover:underline flex items-center gap-1"
+            className="text-sm text-primary hover:underline flex items-center gap-1"
           >
             <Link href="/history">
             ดูทั้งหมด <ArrowUpRight size={14} />
