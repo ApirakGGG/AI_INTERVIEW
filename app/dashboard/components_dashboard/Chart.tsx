@@ -28,19 +28,19 @@ export default function RadarCharts({ data }: { data: any[] }) {
       {/*  Skill Radar Chart */}
       <Card className="bg-card shadow-card border border-border">
         <CardHeader>
-          <CardTitle className="cn-font-heading text-heading">Skill Analysis</CardTitle>
-          <CardDescription>วิเคราะห์จุดแข็งและจุดอ่อนของคุณ</CardDescription>
+          <CardTitle className="cn-font-heading text-heading">วิเคราะห์จุดแข็ง-จุดอ่อน</CardTitle>
+          <CardDescription>สรุปคะแนนตามตำแหน่งที่ฝึกสัมภาษณ์</CardDescription>
         </CardHeader>
         <CardContent className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart data={data}>
-              <PolarGrid stroke="#e2e8f0" />
+              <PolarGrid stroke="#f1f5f9" />
               <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fill: "#64748b" }} />
               <Radar
                 name="User"
                 dataKey="A"
-                stroke="#f97316"
-                fill="#f97316"
+                stroke="#22c55e"
+                fill="#22c55e"
                 fillOpacity={0.4}
               />
             </RadarChart>

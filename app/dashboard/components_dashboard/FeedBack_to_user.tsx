@@ -38,9 +38,9 @@ export default function FeedBackToUser({
         <CardHeader>
           <CardTitle className="flex items-center gap-2 cn-font-heading text-lg">
             <TrendingUp className="text-primary size-5" />
-            Skills Analysis
+            วิเคราะห์ทักษะ
           </CardTitle>
-          <CardDescription>Detailed overview of your conversational domains.</CardDescription>
+          <CardDescription>สรุปภาพรวมจุดแข็งและจุดอ่อนในแต่ละด้าน</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Skills row */}
@@ -79,7 +79,7 @@ export default function FeedBackToUser({
           <div className="bg-primary/5 border border-primary/20 p-5 rounded-xl shadow-sm">
             <h4 className="text-heading font-bold text-base flex items-center gap-2">
               <MessageSquare className="text-primary size-5" />
-              AI Feedback & Suggestions
+              คำแนะนำจาก AI
             </h4>
             <p className="text-body text-sm mt-3 leading-relaxed">
               {/* ตัวอย่าง */}
@@ -92,7 +92,7 @@ export default function FeedBackToUser({
           <div className="grid grid-cols-2 gap-4">
             <div className="p-5 border border-border bg-background rounded-xl text-center shadow-sm">
               <p className="text-3xl font-bold cn-font-heading text-heading">{avgScore}<span className="text-lg text-muted-foreground font-medium">/100</span></p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mt-1">Overall Score</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mt-1">คะแนนภาพรวม</p>
             </div>
             <div className="p-5 border border-border bg-background rounded-xl text-center shadow-sm flex flex-col justify-center items-center">
               <span
@@ -106,7 +106,7 @@ export default function FeedBackToUser({
                 {(latestInterview?.score as any)?.fillerLevel || "N/A"}
               </span>
               <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mt-1 text-center">
-                Filler Words Usage
+                การใช้คำฟุ่มเฟือย
               </p>
             </div>
           </div>
