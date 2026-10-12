@@ -120,7 +120,7 @@ export function LearningActivities({
       <CardHeader className="pb-4">
         <CardTitle className="text-xl font-bold cn-font-heading flex items-center gap-2 text-heading">
           <Calendar className="text-secondary size-5" />
-          Learning Activities
+          กิจกรรมการฝึกฝน
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -170,12 +170,12 @@ export function LearningActivities({
         </div>
         
         <div className="flex items-center justify-end gap-2 mt-4 text-xs text-muted-foreground font-medium">
-          <span>Less</span>
+          <span>น้อย</span>
           <div className="w-3 h-3 rounded-[3px] border border-border bg-background" style={{ width: "12px", height: "12px" }} />
           <div className="w-3 h-3 rounded-[3px] bg-primary/30" style={{ width: "12px", height: "12px" }} />
           <div className="w-3 h-3 rounded-[3px] bg-primary/60" style={{ width: "12px", height: "12px" }} />
           <div className="w-3 h-3 rounded-[3px] bg-primary" style={{ width: "12px", height: "12px" }} />
-          <span>More</span>
+          <span>มาก</span>
         </div>
       </CardContent>
     </Card>
