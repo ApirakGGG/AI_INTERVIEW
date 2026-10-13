@@ -3,7 +3,7 @@
 
 export const mockInterviews = [
   {
-    userId: "user_3BX69gW4LVXytARqV9J1JEK3cIt", // แทนด้วย clerkId จริง
+    userId: "user_3BZbVNNYQKMWnlCyU2GVEcPDs8t", // แทนด้วย clerkId จริง
     position: "Frontend Developer",
     level: "Junior",
     transcript:
@@ -23,7 +23,7 @@ export const mockInterviews = [
     status: "completed",
   },
   {
-    userId: "user_3BX69gW4LVXytARqV9J1JEK3cIt", // แทนด้วย clerkId จริง
+    userId: "user_3BZbVNNYQKMWnlCyU2GVEcPDs8t", // แทนด้วย clerkId จริง
     position: "Fullstack Engineer",
     level: "Mid",
     transcript:
@@ -43,7 +43,7 @@ export const mockInterviews = [
     status: "completed",
   },
   {
-    userId: "user_3BX69gW4LVXytARqV9J1JEK3cIt", // แทนด้วย clerkId จริง
+    userId: "user_3BZbVNNYQKMWnlCyU2GVEcPDs8t", // แทนด้วย clerkId จริง
     position: "React Specialist",
     level: "Senior",
     transcript:
