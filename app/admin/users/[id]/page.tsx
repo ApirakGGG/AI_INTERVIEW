@@ -103,7 +103,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
           </CardHeader>
           <CardContent>
             <div className="w-full overflow-x-auto">
-              <table className="w-full text-sm text-left min-w-[700px]">
+              <table className="w-full text-sm text-left min-w-[900px]">
                 <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
                   <tr>
                     <th className="px-4 py-3 font-medium rounded-tl-lg">หัวข้อ / ตำแหน่ง</th>
@@ -111,6 +111,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                     <th className="px-4 py-3 font-medium">วันที่ทำรายการ</th>
                     <th className="px-4 py-3 font-medium">ระยะเวลา</th>
                     <th className="px-4 py-3 font-medium text-center">คะแนน</th>
+                    <th className="px-4 py-3 font-medium">เสียงบันทึก</th>
                     <th className="px-4 py-3 font-medium rounded-tr-lg text-right">สถานะ</th>
                   </tr>
                 </thead>
@@ -138,6 +139,21 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                           {Math.round(interview.averageScore || 0)}/100
                         </span>
                       </td>
+                      <td className="px-4 py-4">
+                        {interview.audioUrl ? (
+                          <audio
+                            controls
+                            preload="none"
+                            className="h-8 w-48 min-w-45"
+                          >
+                            <source src={interview.audioUrl} type="audio/wav" />
+                            <source src={interview.audioUrl} type="audio/mpeg" />
+                            เบราว์เซอร์ไม่รองรับ audio player
+                          </audio>
+                        ) : (
+                          <span className="text-muted-foreground text-xs">ไม่มีข้อมูล</span>
+                        )}
+                      </td>
                       <td className="px-4 py-4 text-right">
                         <Badge 
                           variant={interview.status === "completed" ? "default" : "secondary"}
@@ -153,7 +169,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                   ))}
                   {user.interviews.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="text-center py-8 text-muted-foreground">
+                      <td colSpan={7} className="text-center py-8 text-muted-foreground">
                         ผู้ใช้รายนี้ยังไม่มีประวัติการสัมภาษณ์
                       </td>
                     </tr>

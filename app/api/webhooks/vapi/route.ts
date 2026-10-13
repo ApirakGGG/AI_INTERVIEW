@@ -19,6 +19,18 @@ export async function POST(req: Request) {
     if (body.message.type === "end-of-call-report") {
       const { transcript, customer, startedAt, endedAt } = body.message;
 
+      // ดึง recording URL จาก Vapi payload
+      // รองรับทั้ง format ใหม่ (artifact.recording) และ format เดิม (recordingUrl)
+      const recordingUrl =
+        body.message?.artifact?.recording?.url ||
+        body.message?.artifact?.recordingUrl ||
+        body.message?.recordingUrl ||
+        null;
+
+      if (recordingUrl) {
+        console.log("[VAPI Webhook] Recording URL found:", recordingUrl);
+      }
+
       // รับ callVars ก่อนเพื่อใช้เป็น fallback หา clerkId
       // (web call ไม่มี body.message.customer.id → ต้องอ่านจาก variableValues แทน)
       const callVars =
@@ -140,6 +152,7 @@ ${transcript}
           },
           averageScore: averageScore,
           feedback: feedback,
+          audioUrl: recordingUrl,
           status: "completed",
         },
       });
