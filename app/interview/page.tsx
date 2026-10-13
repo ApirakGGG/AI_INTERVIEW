@@ -1,21 +1,29 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Vapi from "@vapi-ai/web";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Volume2, Bot, User } from "lucide-react";
 import Image from "next/image";
 import { jobCategories } from "@/lib/jobPositions";
+import { FeedbackPromptModal } from "@/components/feedback/FeedbackPromptModal";
+import { FeedbackSurveyModal } from "@/components/feedback/FeedbackSurveyModal";
 
 const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY as string);
 
 export default function InterviewPage() {
+  const router = useRouter();
   const { user } = useUser();
   const [transcript, setTranscript] = useState(""); // ทำ Subtitle
   const [isCalling, setIsCalling] = useState(false); //สถานะการโทร
   const [position, setPosition] = useState("Software Engineer"); //ตำแหน่ง
   const [level, setLevel] = useState("Junior"); //ระดับ
   const [jobDescription, setJobDescription] = useState(""); // Job Description
+
+  // Feedback Survey Modals State
+  const [showPromptModal, setShowPromptModal] = useState(false);
+  const [showSurveyModal, setShowSurveyModal] = useState(false);
 
   // UI
   const [aiSpeaking, setAiSpeaking] = useState(false); //เวลา AI กดพูด
@@ -86,6 +94,7 @@ export default function InterviewPage() {
       setUserSpeaking(false);
       setTranscript("การสัมภาษณ์จบลงแล้ว ระบบกำลังประมวลผลคะแนน...");
       stopTimer(); // หยุดจับเวลา
+      setShowPromptModal(true);
     });
 
     // ดักerror
@@ -93,6 +102,34 @@ export default function InterviewPage() {
       console.error("Vapi error:", error);
     });
   }, []);
+
+  // จบการสัมภาษณ์ด้วยตนเอง
+  const handleStopInterview = () => {
+    try {
+      vapi.stop();
+    } catch (err) {
+      console.error("Error stopping vapi call:", err);
+    }
+    setIsCalling(false);
+    setAiSpeaking(false);
+    setUserSpeaking(false);
+    setTranscript("การสัมภาษณ์จบลงแล้ว ระบบกำลังประมวลผลคะแนน...");
+    stopTimer();
+    setShowPromptModal(true);
+  };
+
+  // จัดการเมื่อปฏิเสธหรือข้ามแบบสอบถาม
+  const handleDeclineSurvey = () => {
+    setShowPromptModal(false);
+    setShowSurveyModal(false);
+    router.push("/dashboard");
+  };
+
+  // จัดการเมื่อยอมรับทำแบบสอบถาม
+  const handleStartSurvey = () => {
+    setShowPromptModal(false);
+    setShowSurveyModal(true);
+  };
 
   // เริ่มการสัมภาษณ์
   const startInterview = async () => {
@@ -397,7 +434,7 @@ export default function InterviewPage() {
         )}
         <Button
           variant={"default"}
-          onClick={isCalling ? () => vapi.stop() : startInterview}
+          onClick={isCalling ? handleStopInterview : startInterview}
           className={`px-10 py-6 rounded-xl font-bold text-white text-lg transition-all cursor-pointer shadow-lg w-full md:w-auto ${
             isCalling
               ? "bg-destructive hover:opacity-90 shadow-destructive/30"
@@ -407,6 +444,28 @@ export default function InterviewPage() {
           {isCalling ? "จบการสัมภาษณ์" : "เริ่มพูดคุยตอนนี้"}
         </Button>
       </div>
+
+      {/* ── Modal ถามผู้ใช้ว่าต้องการทำแบบสอบถามหรือไม่เมื่อสัมภาษณ์เสร็จ ── */}
+      <FeedbackPromptModal
+        isOpen={showPromptModal}
+        onStartSurvey={handleStartSurvey}
+        onDecline={handleDeclineSurvey}
+        position={position}
+        level={level}
+      />
+
+      {/* ── Modal แบบสอบถามความพึงพอใจฉบับเต็ม ── */}
+      <FeedbackSurveyModal
+        isOpen={showSurveyModal}
+        onClose={handleDeclineSurvey}
+        position={position}
+        level={level}
+        hasCustomJd={Boolean(jobDescription.trim())}
+        userId={user?.id}
+        onSubmitted={() => {
+          // Submitted successfully
+        }}
+      />
     </div>
   );
 }

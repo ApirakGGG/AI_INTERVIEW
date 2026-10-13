@@ -20,6 +20,7 @@ model User {
   email      String      @unique
   name       String
   interviews Interview[]
+  feedbacks  Feedback[]
   createdAt  DateTime    @default(now())
   role       Role        @default(USER)
 }
@@ -51,4 +52,43 @@ model JobPosition {
   category  String
   title     String   @unique
   createdAt DateTime @default(now())
+}
+
+model Feedback {
+  id                  String   @id @default(uuid())
+  userId              String?
+  user                User?    @relation(fields: [userId], references: [clerkId], onDelete: SetNull)
+  position            String?
+  level               String?
+  hasCustomJd         Boolean  @default(false)
+  experienceLevel     String?
+
+  // ด้านที่ 1: UI / UX & Onboarding (1-5)
+  ratingUiEase        Int?
+  ratingUiInterview   Int?
+  ratingUiDashboard   Int?
+  ratingUiHistory     Int?
+
+  // ด้านที่ 2: ระบบสัมภาษณ์ด้วยเสียง AI (Vapi) (1-5)
+  ratingVoiceNatural  Int?
+  ratingVoiceLatency  Int?
+  ratingVoiceStt      Int?
+  ratingVoiceRelevance Int?
+
+  // ด้านที่ 3: การประเมินผลและคำแนะนำ (Gemini) (1-5)
+  ratingEvalFairness  Int?
+  ratingEvalInsight   Int?
+  ratingEvalPractical Int?
+  ratingEvalSpeed     Int?
+
+  // ส่วนที่ 3: ภาพรวม
+  confidenceLevel     String?
+  npsScore            Int?
+
+  // ส่วนที่ 4: ความคิดเห็นเพิ่มเติม
+  mostLiked           String?  @db.Text
+  problemsFound       String?  @db.Text
+  futureSuggestions   String?  @db.Text
+
+  createdAt           DateTime @default(now())
 }

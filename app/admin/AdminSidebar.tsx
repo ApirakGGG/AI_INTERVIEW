@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Users, Settings, PieChart } from "lucide-react";
+import { BarChart3, Users, Settings, PieChart, MessageSquareHeart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function AdminSidebar({ userName }: { userName: string }) {
@@ -12,6 +12,7 @@ export default function AdminSidebar({ userName }: { userName: string }) {
     { name: "Dashboard", href: "/admin/dashboard", icon: PieChart },
     { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
     { name: "Users", href: "/admin/users", icon: Users },
+    { name: "แบบสอบถาม (Feedback)", href: "/admin/feedback", icon: MessageSquareHeart },
   ];
 
   return (
