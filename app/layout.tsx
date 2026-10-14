@@ -27,16 +27,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <ClerkProvider>
-        {/* ออกแบบ layout  */}
         <body
           className={cn(
             `${poppins.className} antialiased min-h-screen bg-background overflow-x-hidden`,
           )}
         >
-          {/* จัด layout nav+footer */}
           <div className="relative flex min-h-screen flex-col">
             <NavbarWrapper />
-            <main className="flex-1 w-full mx-auto px-4 max-w-7xl sm:px-6 lg:px-8 py-8">
+            <main className="flex-1 w-full">
               {children}
             </main>
             <Footer />

@@ -85,7 +85,7 @@ export default async function Dashboard() {
   }));
 
   return (
-    <div className="p-6 md:p-10 space-y-8 bg-background min-h-[calc(100vh-64px)] relative">
+    <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 py-8 space-y-8 bg-background min-h-[calc(100vh-64px)] relative">
       <TermsModalWrapper />
 
       {/* Welcome Banner */}
