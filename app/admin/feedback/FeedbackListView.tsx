@@ -12,11 +12,13 @@ import {
   TrendingUp,
   MessageSquare,
   Printer,
+  FileSpreadsheet,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FeedbackDetailModal } from "./FeedbackDetailModal";
 import { FeedbackPdfModal } from "@/components/feedback/FeedbackPdfModal";
+import { FeedbackSummaryPdfModal } from "@/components/feedback/FeedbackSummaryPdfModal";
 
 interface FeedbackItem {
   id: string;
@@ -60,6 +62,7 @@ export function FeedbackListView({ feedbacks }: FeedbackListViewProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackItem | null>(null);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [isSummaryPdfModalOpen, setIsSummaryPdfModalOpen] = useState(false);
 
   // Filter feedbacks
   const filteredFeedbacks = feedbacks.filter((f) => {
@@ -158,14 +161,29 @@ export function FeedbackListView({ feedbacks }: FeedbackListViewProps) {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsPdfModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs bg-accent hover:bg-accent-hover text-white shadow-md shadow-accent/20 transition-all cursor-pointer shrink-0 self-start sm:self-auto"
-        >
-          <Printer className="size-4" />
-          <span>ส่งออกรายงาน PDF</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0 self-start sm:self-auto">
+          {/* ปุ่มเดิม: ส่งออกรายงาน PDF รายบุคคล */}
+          <button
+            type="button"
+            onClick={() => setIsPdfModalOpen(true)}
+            className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-white shadow-sm transition-all cursor-pointer"
+            title="ส่งออกรายงานรายบุคคลตามรายชื่อผู้ตอบแบบสอบถาม"
+          >
+            <Printer className="size-4" />
+            <span>รายชื่อผู้ตอบ</span>
+          </button>
+
+          {/* ปุ่มใหม่: ส่งออกตารางสรุปแบบสอบถามตามแบบฟอร์ม 5 ระดับ พร้อม SD XD และ AI สรุปผล */}
+          <button
+            type="button"
+            onClick={() => setIsSummaryPdfModalOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs bg-accent hover:bg-accent-hover text-white shadow-md shadow-accent/20 transition-all cursor-pointer"
+            title="ส่งออกตารางสรุปความพึงพอใจ 5 ระดับ พร้อมค่าเฉลี่ย SD XD และ AI สรุปผล"
+          >
+            <FileSpreadsheet className="size-4" />
+            <span>สรุปแบบสอบถาม</span>
+          </button>
+        </div>
       </div>
 
       {/* KPI Cards */}
@@ -405,10 +423,17 @@ export function FeedbackListView({ feedbacks }: FeedbackListViewProps) {
         onClose={() => setSelectedFeedback(null)}
       />
 
-      {/* Modal Export PDF */}
+      {/* Modal Export PDF เดิม (รายชื่อผู้ตอบรายบุคคล) */}
       <FeedbackPdfModal
         isOpen={isPdfModalOpen}
         onClose={() => setIsPdfModalOpen(false)}
+        feedbacks={filteredFeedbacks}
+      />
+
+      {/* Modal Export PDF ใหม่ (ตารางจำแนก 5 ระดับ + SD XD + AI สรุปผล ตามรูปภาพ) */}
+      <FeedbackSummaryPdfModal
+        isOpen={isSummaryPdfModalOpen}
+        onClose={() => setIsSummaryPdfModalOpen(false)}
         feedbacks={filteredFeedbacks}
       />
     </div>
