@@ -21,5 +21,6 @@ export default async function NavbarWrapper() {
     }
   }
 
-  return <Navbar isAdmin={isAdmin} />;
+  return <Navbar isAdmin={isAdmin} initialSignedIn={Boolean(userId)} />;
 }
+
